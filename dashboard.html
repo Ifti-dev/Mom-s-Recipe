@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        <section class="container">
+            <div class="wrapper-recipe-form">
+                <form id="recipe-form">
+                    <div class="recipe-form-cr">
+                        <label>Title</label>
+                        <input type="text" placeholder="Enter recipe name...." class="recipe-inp-box" id="recipe-form-title">
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label>Description</label>
+                        <textarea name="recipe-desc" class="recipe-inp-box" id="recipe-form-desc"></textarea>
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label for="upload image">Feature Image</label>
+                        <input type="file" accept=".jpg,.png" id="recipe-form-file">
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label for="cooking-time">Cooking Time</label>
+                        <div class="cooking-time">
+                            <div class="cooking-time-hour">
+                                <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-hour">
+                                <label for="cooking-time-hour">Hour</label>
+                            </div>
+                            <div class="cooking-time-min">
+                                <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-min">
+                                <label for="cooking-time-min">mins</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label for="total-serving">Total serving</label>
+                        <input type="number" value="1" class="recipe-inp-box" id="recipe-form-serving">
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label for="ingredients">Ingredients</label>
+                        <ul class="ingredient-list"></ul>
+                        <input type="button" value="+New Ingredient" id="add-ingredient">
+                    </div>
+                    <div class="recipe-form-cr">
+                        <label for="instruction">Instructions</label>
+                        <ul class="instruction-list"></ul>
+                        <input type="button" value="+New instruction" id="add-instruction">
+                    </div>
+                    <div class="recipe-form-footer">
+                        <input type="button" id="cancle" value="cancle">
+                        <input type="submit" id="add-recipe" value="Add Recipe">
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <script src="js/recipe-form.js"></script>
+    </footer>
+ 
+</body>
+</html>

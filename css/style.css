@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --primary-font-size: 1rem;
+    --primary-text-color: black;
+    --primary-theme-color: #b55d51;
+    --secondary-theme-color: #ebebeb;
+    --primary-font:"Roboto", sans-serif;
+}
+
+image{
+    display: block;
+    width: 100%;
+    height: auto;
+  
+}
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.wrapper-main{
+    width: 100%;
+    max-width: 1160px;
+}
