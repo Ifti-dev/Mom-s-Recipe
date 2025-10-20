@@ -37,7 +37,7 @@
     border-radius: 6px;
 }
 
-.ingredient-list{
+.ingredient-list, .instruction-list{
     list-style-type: none;
     width: 100%;
     display: flex;
@@ -47,7 +47,7 @@
     flex-shrink: 0;
 }
 
-.ingredient-list li{
+.ingredient-list li, .instruction-list li{
     display: flex;
     width: 100%;
     
@@ -57,7 +57,7 @@
     overflow: hidden;
 }
 
-.ingredient-list input[type="text"]{
+.ingredient-list input[type="text"], .instruction-list input[type="text"]{
     flex: 1;
     border: none;
     padding: 8px 16px;
@@ -65,7 +65,7 @@
 }
 
 
-.ingredient-list input[type="button"]{
+.ingredient-list input[type="button"], .instruction-list input[type="button"]{
     
     padding: 5px 10px;
     background-color: rgb(255, 59, 59);
