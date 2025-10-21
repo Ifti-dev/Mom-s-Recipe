@@ -13,7 +13,7 @@
     --primary-font:"Roboto", sans-serif;
 }
 
-image{
+img{
     display: block;
     width: 100%;
     height: auto;
@@ -28,4 +28,9 @@ image{
 .wrapper-main{
     width: 100%;
     max-width: 1160px;
+}
+hr{
+    padding: 1px;
+    border-radius: 10px;
+    background-color: rgb(182, 182, 182);
 }
