@@ -77,11 +77,59 @@ recipe_form.addEventListener("submit",(e)=>{
                 cook_hour : recipe_form_cook_hour.value,
                 cook_min : recipe_form_cook_min.value,
                 ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
-                instruction_list_data : get_li_inp_text_value(add_instruction_list)
+                instruction_list_data : get_li_inp_text_value(add_instruction_list),
+                recipe_id:recipe_list.length
             }
         )
+        
         console.log(recipe_list)
         localStorage.setItem("recipe_list",JSON.stringify(recipe_list)) //storing recipe list in local storage in json string format 
         //it gets stored as stringified version of recipe_list = [] at first and then...
+        
+        check_recipe_list_to_create_card_db()
+        //To update recipe container in real time. Dont worry the func will not create cards multiple times as we are repfreshing it each time it is called = ``
     }
 })
+
+
+
+const recipe_list_dashboard = document.querySelector(".recipe-list-body")
+
+const create_recipe_card_db = (title,img_src,recipe_id)=>{
+    let new_recipe = `
+                    <div class="recipe-dashboard-card">
+                        <div class="recipe-dashboard-card-img">
+                            <img src="${img_src}" alt="">
+                        </div>
+                        <div class="recipe-dashboard-card-body">
+                            <div class="recipe-dashboard-card-info">
+                                <h3>${title}</h3>
+                                <p>Recipe Id: <span>${recipe_id}</span></p>
+                            </div>
+                            
+                            <div class="recipe-dashboard-card-buttons">
+                                
+                                <button><i class="fa-solid fa-trash"></i> Edit</button>
+                                <button><i class="fa-solid fa-pen"></i> Delete</button>
+                                
+                            </div>
+                           
+                        </div>
+                        
+                    </div>
+    `
+    recipe_list_dashboard.innerHTML += new_recipe
+} 
+const check_recipe_list_to_create_card_db = ()=>{
+    recipe_list_dashboard.innerHTML = ``
+    //so that everytime we call the func the container is initially empty (refreshed)
+    //and check for the latest data on recipe_list
+    recipe_list.forEach(element => {
+       create_recipe_card_db(element.title,element.img,element.recipe_id)
+    });
+}
+check_recipe_list_to_create_card_db()
+
+
+
+
