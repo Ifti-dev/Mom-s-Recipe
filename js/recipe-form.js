@@ -50,7 +50,7 @@ const get_li_inp_text_value = (ul_container)=>{
 }
 
 
-
+//Form submission and json store
 const recipe_list = JSON.parse(localStorage.getItem("recipe_list"))||[]
 //so if there is no recipe is available in local storage (ie. false) than an empty array will be taken where 1st recipe is stored
 //and if there is recipe avialable than the srtingified recipe_list is taken from the local storage and converted to its original array version
@@ -68,7 +68,7 @@ recipe_form.addEventListener("submit",(e)=>{
     file_reader.readAsDataURL(recipe_form_file.files[0])
     file_reader.onload = ()=>{
         let img_src = file_reader.result
-        
+        let recipe_unique_id = crypto.randomUUID()
         recipe_list.push(
             {
                 title : recipe_form_title.value,
@@ -78,7 +78,8 @@ recipe_form.addEventListener("submit",(e)=>{
                 cook_min : recipe_form_cook_min.value,
                 ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
                 instruction_list_data : get_li_inp_text_value(add_instruction_list),
-                recipe_id:recipe_list.length
+                recipe_id:recipe_list.length,
+                recipe_unique_id: recipe_unique_id
             }
         )
         
@@ -92,12 +93,12 @@ recipe_form.addEventListener("submit",(e)=>{
 })
 
 
-
+//Recipe card creation on dashboard
 const recipe_list_dashboard = document.querySelector(".recipe-list-body")
 
-const create_recipe_card_db = (title,img_src,recipe_id)=>{
+const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id)=>{
     let new_recipe = `
-                    <div class="recipe-dashboard-card">
+                    <div class="recipe-dashboard-card" data-unique_id ="${recipe_unique_id}">
                         <div class="recipe-dashboard-card-img">
                             <img src="${img_src}" alt="">
                         </div>
@@ -109,8 +110,8 @@ const create_recipe_card_db = (title,img_src,recipe_id)=>{
                             
                             <div class="recipe-dashboard-card-buttons">
                                 
-                                <button><i class="fa-solid fa-trash"></i> Edit</button>
-                                <button><i class="fa-solid fa-pen"></i> Delete</button>
+                                <button class="recipe-dashboard-card-edit-btn"><i class="fa-solid fa-trash"></i> Edit</button>
+                                <button class="recipe-dashboard-card-del-btn"><i class="fa-solid fa-pen"></i> Delete</button>
                                 
                             </div>
                            
@@ -122,14 +123,27 @@ const create_recipe_card_db = (title,img_src,recipe_id)=>{
 } 
 const check_recipe_list_to_create_card_db = ()=>{
     recipe_list_dashboard.innerHTML = ``
+    
     //so that everytime we call the func the container is initially empty (refreshed)
     //and check for the latest data on recipe_list
     recipe_list.forEach(element => {
-       create_recipe_card_db(element.title,element.img,element.recipe_id)
+       create_recipe_card_db(element.title,element.img,element.recipe_id,element.recipe_unique_id)
     });
 }
 check_recipe_list_to_create_card_db()
 
 
+//Recipe card deletion and edit on dashboard
+const delete_btn_recipe_card_db = document.querySelector(".recipe-dashboard-card-del-btn")
+const edit_btn_recipe_card_db = document.querySelector(".recipe-dashboard-card-edit-btn")
 
+recipe_list_dashboard.addEventListener("click",(e)=>{
+    if(e.target.className == "recipe-dashboard-card-del-btn"){
+        console.log(e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+        let remove_recipe_db = recipe_list.findIndex((recipe)=>recipe.recipe_unique_id==e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+        recipe_list.splice(remove_recipe_db,1)
+        localStorage.setItem("recipe_list",JSON.stringify(recipe_list))
+        e.target.closest(".recipe-dashboard-card").remove()
+    }
+})
 
