@@ -4,7 +4,7 @@ const add_ingredient_list = document.querySelector(".ingredient-list")
 const add_instruction_list = document.querySelector(".instruction-list")
 
 
-const create_new_li = (ul_container)=>{
+const create_new_li = (ul_container,li_inp_value)=>{
     const new_li = document.createElement("li")
 
     const new_li_input = document.createElement("input")
@@ -13,6 +13,11 @@ const create_new_li = (ul_container)=>{
     const new_li_delete = document.createElement("input")
     new_li_delete.type = "button"
     new_li_delete.value = "X"
+
+    //for edit we collect the list data and add to li. And as we wanna make resable function thats why we are checking if li input(text).value exits
+    if(li_inp_value){
+        new_li_input.value = li_inp_value
+    }
 
     new_li.appendChild(new_li_input)
     new_li.appendChild(new_li_delete)
@@ -57,41 +62,77 @@ const recipe_list = JSON.parse(localStorage.getItem("recipe_list"))||[]
 
 const recipe_form = document.querySelector("#recipe-form")
 const recipe_form_file = document.querySelector("#recipe-form-file")
+const recipe_form_title = document.getElementById("recipe-form-title")
+const recipe_form_desc = document.getElementById("recipe-form-desc")
+const recipe_form_cook_hour = document.getElementById("recipe-form-cook-hour")
+const recipe_form_cook_min = document.getElementById("recipe-form-cook-min")
+
+let edit_recipe_card_db_element
+
 recipe_form.addEventListener("submit",(e)=>{
     e.preventDefault()
-    const recipe_form_title = document.getElementById("recipe-form-title")
-    const recipe_form_desc = document.getElementById("recipe-form-desc")
-    const recipe_form_cook_hour = document.getElementById("recipe-form-cook-hour")
-    const recipe_form_cook_min = document.getElementById("recipe-form-cook-min")
     
     const file_reader = new FileReader()
     file_reader.readAsDataURL(recipe_form_file.files[0])
     file_reader.onload = ()=>{
         let img_src = file_reader.result
-        let recipe_unique_id = crypto.randomUUID()
-        recipe_list.push(
-            {
-                title : recipe_form_title.value,
-                desc : recipe_form_desc.value,
-                img : img_src,
-                cook_hour : recipe_form_cook_hour.value,
-                cook_min : recipe_form_cook_min.value,
-                ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
-                instruction_list_data : get_li_inp_text_value(add_instruction_list),
-                recipe_id:recipe_list.length,
-                recipe_unique_id: recipe_unique_id
-            }
-        )
-        
+        //For new recipe
+        if(!edit_recipe_card_db_element){
+              
+            let recipe_unique_id = crypto.randomUUID()
+            recipe_list.push(
+                {
+                    title : recipe_form_title.value,
+                    desc : recipe_form_desc.value,
+                    img : img_src,
+                    cook_hour : recipe_form_cook_hour.value,
+                    cook_min : recipe_form_cook_min.value,
+                    ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
+                    instruction_list_data : get_li_inp_text_value(add_instruction_list),
+                    recipe_id:recipe_list.length,
+                    recipe_unique_id: recipe_unique_id
+                }
+            )
+        }
+        //For edit recipe
+        else{
+                console.log(edit_recipe_card_db_element)
+                let find_recipe_db = recipe_list.find((recipe)=>recipe.recipe_unique_id==edit_recipe_card_db_element)
+                
+                find_recipe_db.title = recipe_form_title.value,
+                find_recipe_db.img = img_src,
+                find_recipe_db.desc = recipe_form_desc.value,
+                find_recipe_db.cook_hour = recipe_form_cook_hour.value,
+                find_recipe_db.cook_min = recipe_form_cook_min.value,
+                find_recipe_db.ingredient_list_data = get_li_inp_text_value(add_ingredient_list),
+                find_recipe_db.instruction_list_data = get_li_inp_text_value(add_instruction_list),
+                // find_recipe_db.recipe_id = recipe_list.length,
+                find_recipe_db.recipe_unique_id = edit_recipe_card_db_element
+        }
+        console.log(edit_recipe_card_db_element)
         console.log(recipe_list)
         localStorage.setItem("recipe_list",JSON.stringify(recipe_list)) //storing recipe list in local storage in json string format 
         //it gets stored as stringified version of recipe_list = [] at first and then...
         
         check_recipe_list_to_create_card_db()
         //To update recipe container in real time. Dont worry the func will not create cards multiple times as we are repfreshing it each time it is called = ``
+        
+        recipe_form_refresh()
+        //refreshing the form after submission
     }
 })
 
+//for refreshing the form after submit and edit a recipe
+const recipe_form_refresh = ()=>{
+    recipe_form_file.value=""
+    recipe_form_title.value=""
+    recipe_form_desc.value=""
+    recipe_form_cook_hour.value=""
+    recipe_form_cook_min.value=""
+    add_ingredient_list.innerHTML=""
+    add_instruction_list.innerHTML=""
+    edit_recipe_card_db_element = ""
+}
 
 //Recipe card creation on dashboard
 const recipe_list_dashboard = document.querySelector(".recipe-list-body")
@@ -138,12 +179,38 @@ const delete_btn_recipe_card_db = document.querySelector(".recipe-dashboard-card
 const edit_btn_recipe_card_db = document.querySelector(".recipe-dashboard-card-edit-btn")
 
 recipe_list_dashboard.addEventListener("click",(e)=>{
+    let find_recipe_db = recipe_list.findIndex((recipe)=>recipe.recipe_unique_id==e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+    let find_recipe_db_element = recipe_list[find_recipe_db]
+    if(e.target.className == "recipe-dashboard-card-edit-btn"){
+         
+        edit_recipe_card_db(find_recipe_db_element)
+    }
     if(e.target.className == "recipe-dashboard-card-del-btn"){
-        console.log(e.target.closest(".recipe-dashboard-card").dataset.unique_id)
-        let remove_recipe_db = recipe_list.findIndex((recipe)=>recipe.recipe_unique_id==e.target.closest(".recipe-dashboard-card").dataset.unique_id)
-        recipe_list.splice(remove_recipe_db,1)
+        // console.log(e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+        
+        recipe_list.splice(find_recipe_db,1)
         localStorage.setItem("recipe_list",JSON.stringify(recipe_list))
+
         e.target.closest(".recipe-dashboard-card").remove()
     }
 })
+// title,desc,img,cook_hour,cook_min,ingredient_list_data,instruction_list_data,recipe_id,unique_id
+const edit_recipe_card_db = (element)=>{
+    
+    recipe_form_refresh()
+    edit_recipe_card_db_element = element.recipe_unique_id
+    // recipe_form_file.value = element.title
+    
+    recipe_form_title.value = element.title
+    recipe_form_desc.value = element.desc
+    recipe_form_cook_hour.value = element.cook_hour
+    recipe_form_cook_min.value = element.cook_min 
+    element.ingredient_list_data.forEach((e)=>{
+        create_new_li(add_ingredient_list,e)
+        
+    })
+    element.instruction_list_data.forEach((e)=>{
+        create_new_li(add_instruction_list,e)
+    })
 
+}
