@@ -68,58 +68,87 @@ const recipe_form_cook_hour = document.getElementById("recipe-form-cook-hour")
 const recipe_form_cook_min = document.getElementById("recipe-form-cook-min")
 
 let edit_recipe_card_db_element
+let upload_recipe_img_db_src
 
-recipe_form.addEventListener("submit",(e)=>{
-    e.preventDefault()
+const recipe_form_img_file_cont = document.querySelector(".recipe-form-img-file-cont")
+
+const preview_recipe_img_db = ()=>{
     
+    let recipe_db_preview_img = recipe_form_img_file_cont.getElementsByTagName("img")
+    //it returns an array if exist
+    
+    if(recipe_db_preview_img.length <=0 ){
+        console.log("worked")
+        let new_recipe_img_db = document.createElement("img")
+        new_recipe_img_db.src = upload_recipe_img_db_src
+        recipe_form_img_file_cont.appendChild(new_recipe_img_db)
+    }
+    else{
+        // console.log(upload_recipe_img_db_src)
+        // console.log(recipe_db_preview_img[0].src)
+        recipe_db_preview_img[0].src = upload_recipe_img_db_src
+    }
+
+}
+
+
+recipe_form_file.addEventListener("change",()=>{
     const file_reader = new FileReader()
     file_reader.readAsDataURL(recipe_form_file.files[0])
     file_reader.onload = ()=>{
-        let img_src = file_reader.result
-        //For new recipe
-        if(!edit_recipe_card_db_element){
-              
-            let recipe_unique_id = crypto.randomUUID()
-            recipe_list.push(
-                {
-                    title : recipe_form_title.value,
-                    desc : recipe_form_desc.value,
-                    img : img_src,
-                    cook_hour : recipe_form_cook_hour.value,
-                    cook_min : recipe_form_cook_min.value,
-                    ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
-                    instruction_list_data : get_li_inp_text_value(add_instruction_list),
-                    recipe_id:recipe_list.length,
-                    recipe_unique_id: recipe_unique_id
-                }
-            )
-        }
-        //For edit recipe
-        else{
-                console.log(edit_recipe_card_db_element)
-                let find_recipe_db = recipe_list.find((recipe)=>recipe.recipe_unique_id==edit_recipe_card_db_element)
-                
-                find_recipe_db.title = recipe_form_title.value,
-                find_recipe_db.img = img_src,
-                find_recipe_db.desc = recipe_form_desc.value,
-                find_recipe_db.cook_hour = recipe_form_cook_hour.value,
-                find_recipe_db.cook_min = recipe_form_cook_min.value,
-                find_recipe_db.ingredient_list_data = get_li_inp_text_value(add_ingredient_list),
-                find_recipe_db.instruction_list_data = get_li_inp_text_value(add_instruction_list),
-                // find_recipe_db.recipe_id = recipe_list.length,
-                find_recipe_db.recipe_unique_id = edit_recipe_card_db_element
-        }
-        console.log(edit_recipe_card_db_element)
-        console.log(recipe_list)
-        localStorage.setItem("recipe_list",JSON.stringify(recipe_list)) //storing recipe list in local storage in json string format 
-        //it gets stored as stringified version of recipe_list = [] at first and then...
-        
-        check_recipe_list_to_create_card_db()
-        //To update recipe container in real time. Dont worry the func will not create cards multiple times as we are repfreshing it each time it is called = ``
-        
-        recipe_form_refresh()
-        //refreshing the form after submission
+        upload_recipe_img_db_src = file_reader.result
+        preview_recipe_img_db()
     }
+})
+
+
+recipe_form.addEventListener("submit",(e)=>{
+    e.preventDefault()
+   
+    //For new recipe
+    if(!edit_recipe_card_db_element){
+            
+        let recipe_unique_id = crypto.randomUUID()
+        recipe_list.push(
+            {
+                title : recipe_form_title.value,
+                desc : recipe_form_desc.value,
+                img : upload_recipe_img_db_src,
+                cook_hour : recipe_form_cook_hour.value,
+                cook_min : recipe_form_cook_min.value,
+                ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
+                instruction_list_data : get_li_inp_text_value(add_instruction_list),
+                recipe_id:recipe_list.length,
+                recipe_unique_id: recipe_unique_id
+            }
+        )
+    }
+    //For edit recipe
+    else{
+            console.log(edit_recipe_card_db_element)
+            let find_recipe_db = recipe_list.find((recipe)=>recipe.recipe_unique_id==edit_recipe_card_db_element)
+            
+            find_recipe_db.title = recipe_form_title.value,
+            find_recipe_db.img = upload_recipe_img_db_src
+            find_recipe_db.desc = recipe_form_desc.value,
+            find_recipe_db.cook_hour = recipe_form_cook_hour.value,
+            find_recipe_db.cook_min = recipe_form_cook_min.value,
+            find_recipe_db.ingredient_list_data = get_li_inp_text_value(add_ingredient_list),
+            find_recipe_db.instruction_list_data = get_li_inp_text_value(add_instruction_list),
+            // find_recipe_db.recipe_id = recipe_list.length,
+            find_recipe_db.recipe_unique_id = edit_recipe_card_db_element
+    }
+    console.log(edit_recipe_card_db_element)
+    console.log(recipe_list)
+    localStorage.setItem("recipe_list",JSON.stringify(recipe_list)) //storing recipe list in local storage in json string format 
+    //it gets stored as stringified version of recipe_list = [] at first and then...
+    
+    check_recipe_list_to_create_card_db()
+    //To update recipe container in real time. Dont worry the func will not create cards multiple times as we are repfreshing it each time it is called = ``
+    
+    recipe_form_refresh()
+    //refreshing the form after submission
+  
 })
 
 //for refreshing the form after submit and edit a recipe
@@ -200,6 +229,8 @@ const edit_recipe_card_db = (element)=>{
     recipe_form_refresh()
     edit_recipe_card_db_element = element.recipe_unique_id
     // recipe_form_file.value = element.title
+    upload_recipe_img_db_src = element.img
+    preview_recipe_img_db()
     
     recipe_form_title.value = element.title
     recipe_form_desc.value = element.desc

@@ -144,3 +144,9 @@
 .recipe-dashboard-card-buttons button:first-child{
     background-color: rgb(0, 223, 37);
 }
+
+.recipe-form-img-file-cont img{
+    width: 50px;
+    height: auto;
+    display: inline-block;
+}
