@@ -3,6 +3,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: black;
 }
 .login-register-container{
     
@@ -50,29 +51,26 @@ main{
     display: flex;
     justify-content: center;
     padding: 7px;
+    transition: border-color 1s;
 }
 .register-header{
     border-color: #616873;
 }
 
-.username-container, .password-container{
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
 
-.login-form-user-inp{
+/* register and login input field(all) container a class to style all */
+.log-reg-user-inp{
     display: flex;
     flex-direction: column;
     gap: 25px;
     margin-bottom: 30px;
     
 }
-.login-form-user-inp label{
+.log-reg-user-inp label{
     font-size: 1.2rem;
     
 }
-.login-form-user-inp input{
+.log-reg-user-inp input{
     padding: 15px;
     border-radius: 10px;
     font-size: 1rem;
@@ -81,9 +79,28 @@ main{
     color: white;
 }
 
-.login-form-user-inp input::placeholder{
+.log-reg-user-inp input::placeholder{
     color: rgb(170, 170, 170);
 }
+
+
+/* register and login input field(all) container */
+.register-form-user-inp{
+    display: none;
+    overflow: hidden;
+}
+.login-form-user-inp{
+    overflow: hidden;
+}
+
+
+/* for single input fields including labels */
+.inp-single-cont{ 
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
 
 .login-register-form-buttons input[type="submit"]{
     padding: 10px 15px;

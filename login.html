@@ -29,16 +29,39 @@
                         
                     </div>
                 
-                    <form class="login-register-form-body">
+                    <form id="login-register-form-body">
                         <!-- for login -->
-                        <div class="login-form-user-inp">
-                            <div class="username-container">
-                                <label for="username/Email">Username/Email:</label>
-                                <input type="text" placeholder="Username/Email">
+                        <div class="login-form-user-inp log-reg-user-inp">
+                            <div class="username-container inp-single-cont">
+                                <label for="username-email-login">Username/Email:</label>
+                                <input type="text" placeholder="Username/Email" id="username-email-login">
                             </div>
-                            <div class="password-container">
+                            <div class="password-container inp-single-cont">
+                                <label for="password-login">Password:</label>
+                                <input type="password" placeholder="password" id="password-login">
+                            </div>
+                        </div>
+                        <!-- for register -->
+                        <div class="register-form-user-inp log-reg-user-inp">
+                            <div class="fullname-container inp-single-cont">
+                                <label for="user-fullname">Full Name:</label>
+                                <input type="text" placeholder="Fullname" id="user-fullname">
+                            </div>
+                            <div class="email-container inp-single-cont">
+                                <label for="user-email">Email:</label>
+                                <input type="email" placeholder="Email" id="user-email">
+                            </div>
+                            <div class="username-container inp-single-cont">
+                                <label for="username">Username:</label>
+                                <input type="text" placeholder="Username" id="username">
+                            </div>
+                            <div class="password-container inp-single-cont">
                                 <label for="password">Password:</label>
-                                <input type="password" placeholder="password">
+                                <input type="password" placeholder="xxxx" id="password">
+                            </div>
+                            <div class="re-password-container inp-single-cont">
+                                <label for="re-password">Retype Password:</label>
+                                <input type="password" placeholder="xxxx" id="re-password">
                             </div>
                         </div>
                         <div class="login-register-form-buttons">
@@ -51,7 +74,7 @@
         </section>
     </main>
     <footer>
-
+        <script src="js/login-register.js"></script>
     </footer>
  </body>
  </html>
