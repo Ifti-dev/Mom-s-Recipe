@@ -101,6 +101,7 @@ recipe_form_file.addEventListener("change",()=>{
     }
 })
 
+let get_user_login_data = JSON.parse(localStorage.getItem("user_login_data"))
 
 recipe_form.addEventListener("submit",(e)=>{
     e.preventDefault()
@@ -111,6 +112,7 @@ recipe_form.addEventListener("submit",(e)=>{
         let recipe_unique_id = crypto.randomUUID()
         recipe_list.push(
             {
+                user: get_user_login_data.user_name,
                 title : recipe_form_title.value,
                 desc : recipe_form_desc.value,
                 img : upload_recipe_img_db_src,

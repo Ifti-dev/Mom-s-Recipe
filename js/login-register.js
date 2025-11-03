@@ -42,17 +42,20 @@ const login_register_user_repassword = document.querySelector("#re-password")
 
 const username_email_login =  document.querySelector("#username-email-login")
 const password_login = document.querySelector("#password-login")
+let user_login_data
 
 login_register_form.addEventListener("submit",(e)=>{
     e.preventDefault()
     if(user_action)
     {
         const user_exist = user_list.find((user)=>{return user.user_name == username_email_login.value || user.email == username_email_login.value})
-        
+        user_login_data = user_exist
+        localStorage.setItem("user_login_data", JSON.stringify(user_login_data))
         if(user_exist){
             if(user_exist.password == password_login.value)
             {
                 console.log("worked")
+                window.location.href = "dashboard.html"
             }
         }
     }
