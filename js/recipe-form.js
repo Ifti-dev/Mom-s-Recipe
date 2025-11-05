@@ -247,3 +247,53 @@ const edit_recipe_card_db = (element)=>{
     })
 
 }
+
+
+//My profile
+const my_profile_head_info = document.querySelector(".my-profile-head-info")
+const my_profile_form = document.querySelector(".my-profile-body")
+const my_profile_head_fullname = document.querySelector("#my-profile-head-fullname")
+const my_profile_head_email = document.querySelector("#my-profile-head-email")
+
+const my_profile_email = document.querySelector("#my-profile-email")
+const my_profile_username = document.querySelector("#my-profile-username")
+const my_profile_fullname = document.querySelector("#my-profile-fullname")
+const my_profile_password = document.querySelector("#my-profile-password")
+const my_profile_new_password = document.querySelector("#my-profile-new-password")
+
+
+const user_list = JSON.parse(localStorage.getItem("user_list"))
+let current_user = user_list.find(user=>user.user_name == get_user_login_data.user_name)
+
+
+my_profile_head_fullname.textContent = current_user.full_name
+my_profile_head_email.textContent = current_user.email
+
+my_profile_fullname.value = current_user.full_name
+my_profile_email.value = current_user.email
+my_profile_username.textContent = current_user.user_name
+
+
+my_profile_form.addEventListener("submit",(e)=>{
+    // e.preventDefault()
+    
+    current_user.full_name = my_profile_fullname.value
+    current_user.email = my_profile_email.value
+    if(my_profile_password.value != ""){
+        set_new_password()
+    }
+    localStorage.setItem("user_list",JSON.stringify(user_list))
+  
+})
+
+const set_new_password = ()=>{
+    if(get_user_login_data.password == my_profile_password.value){
+        if(my_profile_new_password.value!=""){
+            current_user.password = my_profile_new_password.value
+        }
+    }
+    else{
+        alert("Password Doesn't Match")
+    }
+        
+}

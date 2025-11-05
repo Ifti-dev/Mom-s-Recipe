@@ -150,3 +150,75 @@
     height: auto;
     display: inline-block;
 }
+
+
+
+
+
+
+.my-profile-image{
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    object-fit: cover;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+}
+.my-profile-head{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#my-profile-head-fullname{
+    font-size: 1.5rem;
+}
+#my-profile-head-email{
+    color: #686868;
+}
+.my-profile-head{
+    padding: 2rem;
+}
+
+
+
+.my-profile-body{
+    padding: 0 2rem 0 2rem;
+    /* background-color: antiquewhite; */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.my-profile-input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.my-profile-inp-single-cont{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+}
+.my-profile-inp-single-cont label{
+    font-size: 1.2rem;
+}
+.my-profile-inp-single-cont input, .my-profile-inp-single-cont p{
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #eee;
+}
+.my-profile-save-button input[type="submit"]{
+     padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #4dc582;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
