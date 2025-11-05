@@ -110,6 +110,14 @@ recipe_form_file.addEventListener("change",()=>{
 
 let get_user_login_data = JSON.parse(localStorage.getItem("user_login_data"))
 
+const count_wishlist = ()=>{
+    let i = 0
+    current_user_recipe_list.forEach((recipe)=>{
+        i+=recipe.wishlist_count
+    })
+    return i
+}
+
 recipe_form.addEventListener("submit",(e)=>{
     e.preventDefault()
    
@@ -120,6 +128,7 @@ recipe_form.addEventListener("submit",(e)=>{
         recipe_list.push(
             {
                 user: get_user_login_data.user_name,
+                wishlist_count: 0,
                 title : recipe_form_title.value,
                 desc : recipe_form_desc.value,
                 img : upload_recipe_img_db_src,
@@ -201,13 +210,15 @@ const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id)=>{
                     </div>
     `
     recipe_list_dashboard.innerHTML += new_recipe
-} 
+}
+
+let current_user_recipe_list
 const check_recipe_list_to_create_card_db = ()=>{
     recipe_list_dashboard.innerHTML = ``
     
     //so that everytime we call the func the container is initially empty (refreshed)
     //and check for the latest data on recipe_list
-    const current_user_recipe_list = recipe_list.filter((recipe)=>recipe.user == get_user_login_data.user_name)
+    current_user_recipe_list = recipe_list.filter((recipe)=>recipe.user == get_user_login_data.user_name)
 
     current_user_recipe_list.forEach(element => {
        create_recipe_card_db(element.title,element.img,element.recipe_id,element.recipe_unique_id)
@@ -309,3 +320,8 @@ const set_new_password = ()=>{
 
 }
 
+//dashboard section
+const user_total_recipe = document.querySelector("#user-total-recipe")
+const user_total_wishlist = document.querySelector("#user-total-wishlist")
+user_total_recipe.textContent = current_user_recipe_list.length
+user_total_wishlist.textContent = count_wishlist()
