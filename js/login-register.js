@@ -50,18 +50,34 @@ login_register_form.addEventListener("submit",(e)=>{
     {
         const user_exist = user_list.find((user)=>{return user.user_name == username_email_login.value || user.email == username_email_login.value})
         user_login_data = user_exist
-        localStorage.setItem("user_login_data", JSON.stringify(user_login_data))
+        
         if(user_exist){
             if(user_exist.password == password_login.value)
             {
                 console.log("worked")
+                localStorage.setItem("user_login_data", JSON.stringify(user_login_data))
                 window.location.href = "dashboard.html"
             }
+            else{
+                alert("Password doesn't match")
+            }
+        }
+        else{
+            alert("User doesn't exists")
         }
     }
     else{
-        if(login_register_user_password.value != login_register_user_repassword.value)
+        let user_already_exist = user_list.find((user)=> user.user_name == login_register_user_name.value || user.email == login_register_user_email.value)
+        
+        if(login_register_user_password.value != login_register_user_repassword.value){
             alert("password doesnt match")
+        }
+        
+        else if(user_already_exist){
+
+            alert("User already exist. Try another user name/email")
+        }
+
         else{
             user_list.push(
                 {

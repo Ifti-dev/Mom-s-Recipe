@@ -1,3 +1,10 @@
+const logout_btn = document.querySelector("#logout")
+logout_btn.addEventListener("click",()=>{
+    localStorage.removeItem("user_login_data")
+    window.location.href = "login.html"
+})
+
+
 const add_ingredient_btn = document.querySelector("#add-ingredient-btn")
 const add_instruction_btn = document.querySelector("#add-instruction-btn")
 const add_ingredient_list = document.querySelector(".ingredient-list")
@@ -162,6 +169,8 @@ const recipe_form_refresh = ()=>{
     recipe_form_cook_min.value=""
     add_ingredient_list.innerHTML=""
     add_instruction_list.innerHTML=""
+    if(recipe_form_img_file_cont.getElementsByTagName("img")[0])
+        recipe_form_img_file_cont.removeChild(recipe_form_img_file_cont.getElementsByTagName("img")[0])
     edit_recipe_card_db_element = ""
 }
 
@@ -198,7 +207,9 @@ const check_recipe_list_to_create_card_db = ()=>{
     
     //so that everytime we call the func the container is initially empty (refreshed)
     //and check for the latest data on recipe_list
-    recipe_list.forEach(element => {
+    const current_user_recipe_list = recipe_list.filter((recipe)=>recipe.user == get_user_login_data.user_name)
+
+    current_user_recipe_list.forEach(element => {
        create_recipe_card_db(element.title,element.img,element.recipe_id,element.recipe_unique_id)
     });
 }
@@ -295,5 +306,6 @@ const set_new_password = ()=>{
     else{
         alert("Password Doesn't Match")
     }
-        
+
 }
+

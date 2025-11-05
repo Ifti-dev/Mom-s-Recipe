@@ -140,6 +140,7 @@
     font-weight: bold;
     border:none;
     border-radius: 5px;
+    cursor: pointer;
 }
 .recipe-dashboard-card-buttons button:first-child{
     background-color: rgb(0, 223, 37);
