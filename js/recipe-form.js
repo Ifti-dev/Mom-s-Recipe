@@ -62,7 +62,19 @@ const get_li_inp_text_value = (ul_container)=>{
 }
 
 
-//Form submission and json store
+//Form open and Form submission and json store
+
+//It opens the recipe form and make the background body blur
+const add_new_recipe_btn = document.querySelector("#add-new-recipe-btn")
+const recipe_creation_form = document.querySelector("#recipe-creation-form")
+add_new_recipe_btn.addEventListener("click",()=>{
+    recipe_creation_form.classList.add("db-sec-active")
+    document.body.classList.add("db-body-blur")
+})
+
+
+
+
 const recipe_list = JSON.parse(localStorage.getItem("recipe_list"))||[]
 //so if there is no recipe is available in local storage (ie. false) than an empty array will be taken where 1st recipe is stored
 //and if there is recipe avialable than the srtingified recipe_list is taken from the local storage and converted to its original array version
@@ -183,7 +195,16 @@ const recipe_form_refresh = ()=>{
     edit_recipe_card_db_element = ""
 }
 
-//Recipe card creation on dashboard
+//Form cancle button it removes the recipe form and body background blur
+const cancle_recipe_form = document.querySelector("#cancle-recipe-form")
+cancle_recipe_form.addEventListener("click",()=>{
+    recipe_creation_form.classList.remove("db-sec-active")
+    document.body.classList.remove("db-body-blur")
+
+})
+
+//Recipe card creation on dashboard 
+
 const recipe_list_dashboard = document.querySelector(".recipe-list-body")
 
 const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id)=>{
@@ -325,3 +346,20 @@ const user_total_recipe = document.querySelector("#user-total-recipe")
 const user_total_wishlist = document.querySelector("#user-total-wishlist")
 user_total_recipe.textContent = current_user_recipe_list.length
 user_total_wishlist.textContent = count_wishlist()
+
+
+// Dashboard sidebar
+const dashboard_sidebar_options_container = document.querySelector(".dashboard-sidebar-options-container")
+const db_sec_container = document.querySelectorAll(".db-sec-container")
+dashboard_sidebar_options_container.addEventListener("click",(e)=>{
+    if(e.target.tagName == "LI"){
+        db_sec_container.forEach(container=>{
+            container.classList.remove("db-sec-active")
+            if(e.target.dataset.section == container.id){
+                container.classList.add("db-sec-active")
+            }
+        })
+        
+    }
+    
+})

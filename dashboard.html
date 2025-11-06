@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
     <script src="https://kit.fontawesome.com/bbf8f18e93.js" crossorigin="anonymous"></script>
     <title>Dashboard</title>
 </head>
@@ -13,129 +14,140 @@
 
     </header>
     <main>
-        <section class="container">
-            <div class="wrapper-main dashboard-sec-wrapper">
-                <div class="total-recipe-container">
-                    <label for="user-total-recipe">Total Recipe</label>
-                    <p id="user-total-recipe">3</p>
+        <aside class="dashboard-sidebar-container">
+            <ul class="dashboard-sidebar-options-container">
+                <li data-section="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+                <li data-section="my-profile"><i class="fa-solid fa-user"></i> My Profile</li>
+                <li data-section="recipe-list"><i class="fa-solid fa-bowl-food"></i> Recipe List</li>
+                <li data-section="logout" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
+            </ul>
+        </aside>
+        <section class="wrapper-main-container">
+            <section class="container db-sec-container db-sec-active" id="dashboard">
+                <div class="wrapper-main dashboard-sec-wrapper">
+                    <div class="total-recipe-container">
+                        <label for="user-total-recipe">Total Recipe</label>
+                        <p id="user-total-recipe">3</p>
+                    </div>
+                    <div class="total-whishlist-container">
+                        <label for="user-total-wishlist">Total Wishlist</label>
+                        <p id="user-total-wishlist">100</p>
+                    </div>
                 </div>
-                <div class="total-whishlist-container">
-                    <label for="user-total-wishlist">Total Wishlist</label>
-                    <p id="user-total-wishlist">100</p>
-                </div>
-            </div>
-        </section>
-        <section class="container">
-            <div class="wrapper-recipe-form">
-                <form id="recipe-form">
-                    <div class="recipe-form-cr">
-                        <label>Title</label>
-                        <input type="text" placeholder="Enter recipe name...." class="recipe-inp-box" id="recipe-form-title" required>
-                    </div>
-                    <div class="recipe-form-cr">
-                        <label>Description</label>
-                        <textarea name="recipe-desc" class="recipe-inp-box" id="recipe-form-desc"></textarea>
-                    </div>
-                    <div class="recipe-form-cr recipe-form-img-file-cont">
-                        <label for="upload image">Feature Image</label>
-                        <input type="file" accept=".jpg,.png" id="recipe-form-file" required>
-                        <!-- add img preview here using js cause if we directly use html and dont add src it will be an undefined img -->
-                    </div>
-                    <div class="recipe-form-cr">
-                        <label for="cooking-time">Cooking Time</label>
-                        <div class="cooking-time">
-                            <div class="cooking-time-hour">
-                                <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-hour">
-                                <label for="cooking-time-hour">Hour</label>
-                            </div>
-                            <div class="cooking-time-min">
-                                <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-min">
-                                <label for="cooking-time-min">mins</label>
+            </section>
+            <section class="container db-sec-container" id="recipe-creation-form">
+                <div class="wrapper-recipe-form">
+                    <form id="recipe-form">
+                        <div class="recipe-form-cr">
+                            <label>Title</label>
+                            <input type="text" placeholder="Enter recipe name...." class="recipe-inp-box" id="recipe-form-title" required>
+                        </div>
+                        <div class="recipe-form-cr">
+                            <label>Description</label>
+                            <textarea name="recipe-desc" class="recipe-inp-box" id="recipe-form-desc"></textarea>
+                        </div>
+                        <div class="recipe-form-cr recipe-form-img-file-cont">
+                            <label for="upload image">Feature Image</label>
+                            <input type="file" accept=".jpg,.png" id="recipe-form-file" required>
+                            <!-- add img preview here using js cause if we directly use html and dont add src it will be an undefined img -->
+                        </div>
+                        <div class="recipe-form-cr">
+                            <label for="cooking-time">Cooking Time</label>
+                            <div class="cooking-time">
+                                <div class="cooking-time-hour">
+                                    <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-hour">
+                                    <label for="cooking-time-hour">Hour</label>
+                                </div>
+                                <div class="cooking-time-min">
+                                    <input type="number" value="00" class="recipe-inp-box" id="recipe-form-cook-min">
+                                    <label for="cooking-time-min">mins</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="recipe-form-cr">
-                        <label for="total-serving">Total serving</label>
-                        <input type="number" value="1" class="recipe-inp-box" id="recipe-form-serving">
-                    </div>
-                    <div class="recipe-form-cr">
-                        <label for="ingredients">Ingredients</label>
-                        <ul class="ingredient-list"></ul>
-                        <input type="button" value="+New Ingredient" id="add-ingredient-btn">
-                    </div>
-                    <div class="recipe-form-cr">
-                        <label for="instruction">Instructions</label>
-                        <ul class="instruction-list"></ul>
-                        <input type="button" value="+New instruction" id="add-instruction-btn">
-                    </div>
-                    <div class="recipe-form-footer">
-                        <input type="button" id="cancle" value="cancle">
-                        <input type="submit" id="add-recipe" value="Add Recipe">
-                    </div>
-                </form>
-            </div>
-        </section>
-        <!-- for my profile -->
-        <section class="container">
-            <div class="wrapper-main">
-                <div class="my-profile-head">
-                    <div class="my-profile-image">
-                        I
-                    </div>
-                    <div class="my-profile-head-info">
-                        <h3 id="my-profile-head-fullname">Mohammed Iftekhar</h3>
-                        <h3 id="my-profile-head-email">mohammediftekhar18@gmail.com</h3>
+                        <div class="recipe-form-cr">
+                            <label for="total-serving">Total serving</label>
+                            <input type="number" value="1" class="recipe-inp-box" id="recipe-form-serving">
+                        </div>
+                        <div class="recipe-form-cr">
+                            <label for="ingredients">Ingredients</label>
+                            <ul class="ingredient-list"></ul>
+                            <input type="button" value="+New Ingredient" id="add-ingredient-btn">
+                        </div>
+                        <div class="recipe-form-cr">
+                            <label for="instruction">Instructions</label>
+                            <ul class="instruction-list"></ul>
+                            <input type="button" value="+New instruction" id="add-instruction-btn">
+                        </div>
+                        <div class="recipe-form-footer">
+                            <input type="button" id="cancle-recipe-form" value="cancle">
+                            <input type="submit" id="add-recipe" value="Add Recipe">
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <!-- for my profile -->
+            <section class="container db-sec-container" id="my-profile">
+                <div class="wrapper-main">
+                    <div class="my-profile-head">
+                        <div class="my-profile-image">
+                            I
+                        </div>
+                        <div class="my-profile-head-info">
+                            <h3 id="my-profile-head-fullname">Mohammed Iftekhar</h3>
+                            <h3 id="my-profile-head-email">mohammediftekhar18@gmail.com</h3>
+
+                        </div>
 
                     </div>
-
-                </div>
-                
-                <form class="my-profile-body">
-                    <div class="my-profile-input-container">
-                        <div class="my-profile-fullname-container my-profile-inp-single-cont">
-                            <label for="my-profile-user-fullname">Full Name:</label>
-                            <input type="text" placeholder="Fullname" id="my-profile-fullname">
+                    
+                    <form class="my-profile-body">
+                        <div class="my-profile-input-container">
+                            <div class="my-profile-fullname-container my-profile-inp-single-cont">
+                                <label for="my-profile-user-fullname">Full Name:</label>
+                                <input type="text" placeholder="Fullname" id="my-profile-fullname">
+                            </div>
+                            <div class="my-profile-email-container my-profile-inp-single-cont">
+                                <label for="my-profile-user-email">Email:</label>
+                                <input type="email" placeholder="Email" id="my-profile-email">
+                            </div>
+                            <div class="my-profile-username-container my-profile-inp-single-cont">
+                                <label for="my-profile-username">Username:</label>
+                                <p id="my-profile-username">iftidev</p>
+                            </div>
+                            <div class="my-profile-password-container my-profile-inp-single-cont">
+                                <label for="password">Old Password:</label>
+                                <input type="password" placeholder="xxxx" id="my-profile-password">
+                            </div>
+                            <div class="my-profile-new-password-container my-profile-inp-single-cont">
+                                <label for="password">New Password:</label>
+                                <input type="password" placeholder="xxxx" id="my-profile-new-password">
+                            </div>
                         </div>
-                        <div class="my-profile-email-container my-profile-inp-single-cont">
-                            <label for="my-profile-user-email">Email:</label>
-                            <input type="email" placeholder="Email" id="my-profile-email">
+                        <div class="my-profile-save-button">
+                            <input type="submit" value="Save">
                         </div>
-                        <div class="my-profile-username-container my-profile-inp-single-cont">
-                            <label for="my-profile-username">Username:</label>
-                            <p id="my-profile-username">iftidev</p>
-                        </div>
-                        <div class="my-profile-password-container my-profile-inp-single-cont">
-                            <label for="password">Old Password:</label>
-                            <input type="password" placeholder="xxxx" id="my-profile-password">
-                        </div>
-                        <div class="my-profile-new-password-container my-profile-inp-single-cont">
-                            <label for="password">New Password:</label>
-                            <input type="password" placeholder="xxxx" id="my-profile-new-password">
-                        </div>
-                    </div>
-                    <div class="my-profile-save-button">
-                        <input type="submit" value="Save">
-                    </div>
-                </form>
-                
-            </div>
-        </section>
-        <section class="container">
-            <div class="wrapper-main">
-                <div class="recipe-list-header">
-                    <h2>Recipe List</h2>
-                    <input type="button" value="+Add a New Recipe">
-                </div>
-                <hr>
-                <div class="recipe-list-body">
+                    </form>
                     
                 </div>
-            </div>
+            </section>
+            <section class="container db-sec-container" id="recipe-list">
+                <div class="wrapper-main">
+                    <div class="recipe-list-header">
+                        <h2>Recipe List</h2>
+                        <input type="button" value="+Add a New Recipe" id="add-new-recipe-btn">
+                    </div>
+                    <hr>
+                    <div class="recipe-list-body">
+                        
+                    </div>
+                </div>
+            </section>
+        
         </section>
-       
+
     </main>
     <footer>
-        <input type="button" value="Logout" id="logout">
+        <!-- <input type="button" value="Logout" id="logout"> -->
         <script src="js/recipe-form.js"></script>
         
     </footer>

@@ -34,3 +34,10 @@ hr{
     border-radius: 10px;
     background-color: rgb(182, 182, 182);
 }
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

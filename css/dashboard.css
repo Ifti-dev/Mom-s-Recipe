@@ -6,11 +6,71 @@
 }
 
 
-
-/* recipe creation form */
-.wrapper-recipe-form{
+main{
+    display: flex;
+    justify-content: center;
     width: 100%;
     max-width: 1160px;
+    gap: 10px;
+    position: relative;
+}
+main::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: aqua;
+    top: 0;
+}
+
+
+.dashboard-sidebar-container{
+    width: 20%;
+    position: relative;
+}
+.wrapper-main-container{
+    width: 80%;
+    position: relative;
+}
+
+
+
+
+/* For dashboard sidebar */
+.dashboard-sidebar-options-container{
+    display: flex;
+    list-style-type: none;
+    flex-direction: column;
+    gap: 5px;
+}
+.dashboard-sidebar-options-container li{
+    font-size: 1.1rem;
+    background-color: #4dc582;
+    padding: 10px;
+}
+.dashboard-sidebar-container::after{
+    content: "";
+    height: 100%;
+    width: 3px;
+    background-color: aqua;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+/* recipe creation form */
+#recipe-creation-form{
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+}
+
+
+
+.wrapper-recipe-form{
+    width: 100%;
+    /* max-width: 1160px; */
     padding: 2rem;
     background-color: var(--secondary-theme-color);
 }
@@ -156,7 +216,7 @@
 
 
 
-
+/* For dahsboard my profile */
 .my-profile-image{
     width: 100px;
     height: 100px;
@@ -248,4 +308,26 @@
     align-items: center;
     border: solid 2px #eee;
     border-radius: 10px;
+}
+
+
+
+/* for option hide visible */
+.db-sec-container{
+    display: none;
+}
+
+.db-sec-active{
+    display: flex;
+}
+
+.db-body-blur::after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #68686862;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+
 }
