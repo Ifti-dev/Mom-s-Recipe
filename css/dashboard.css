@@ -7,13 +7,8 @@
 
 
 main{
-    display: flex;
-    justify-content: center;
-    width: 100%;
     max-width: 1160px;
-    
     gap: 10px;
-    position: relative;
 }
 main::after{
     content: "";
