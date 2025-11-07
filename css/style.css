@@ -29,15 +29,24 @@ img{
 
 main{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
+    /* flex-direction: column;
+    align-items: center; */
+    /*You might need to delete this if layout problem occurs*/
+
     flex-grow: 1;
     width: 100%;
     position: relative;
-    padding: 30px 16px;
+    margin-top: 30px;
+}
+.main-direction-column{
+    flex-direction: column;
+    align-items: center
 }
 .wrapper-main{
     width: 100%;
     max-width: 1160px;
+    padding: 20px 16px;
 }
 .page-title{
     font-size: 2.5rem;
@@ -66,7 +75,7 @@ header{
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     background-color: #b55d51;
 }
 .header-wrapper{
