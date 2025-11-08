@@ -85,6 +85,7 @@ const recipe_form_title = document.getElementById("recipe-form-title")
 const recipe_form_desc = document.getElementById("recipe-form-desc")
 const recipe_form_cook_hour = document.getElementById("recipe-form-cook-hour")
 const recipe_form_cook_min = document.getElementById("recipe-form-cook-min")
+const recipe_form_total_serving = document.getElementById("recipe-form-serving")
 
 let edit_recipe_card_db_element
 let upload_recipe_img_db_src
@@ -146,6 +147,7 @@ recipe_form.addEventListener("submit",(e)=>{
                 img : upload_recipe_img_db_src,
                 cook_hour : recipe_form_cook_hour.value,
                 cook_min : recipe_form_cook_min.value,
+                total_serving : recipe_form_total_serving,
                 ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
                 instruction_list_data : get_li_inp_text_value(add_instruction_list),
                 recipe_id:recipe_list.length,
@@ -163,6 +165,7 @@ recipe_form.addEventListener("submit",(e)=>{
             find_recipe_db.desc = recipe_form_desc.value,
             find_recipe_db.cook_hour = recipe_form_cook_hour.value,
             find_recipe_db.cook_min = recipe_form_cook_min.value,
+            find_recipe_db.total_serving = recipe_form_total_serving.value,
             find_recipe_db.ingredient_list_data = get_li_inp_text_value(add_ingredient_list),
             find_recipe_db.instruction_list_data = get_li_inp_text_value(add_instruction_list),
             // find_recipe_db.recipe_id = recipe_list.length,
@@ -188,6 +191,7 @@ const recipe_form_refresh = ()=>{
     recipe_form_desc.value=""
     recipe_form_cook_hour.value=""
     recipe_form_cook_min.value=""
+    recipe_form_total_serving.value=""
     add_ingredient_list.innerHTML=""
     add_instruction_list.innerHTML=""
     if(recipe_form_img_file_cont.getElementsByTagName("img")[0])
@@ -351,8 +355,12 @@ user_total_wishlist.textContent = count_wishlist()
 // Dashboard sidebar
 const dashboard_sidebar_options_container = document.querySelector(".dashboard-sidebar-options-container")
 const db_sec_container = document.querySelectorAll(".db-sec-container")
+const db_sidebar_opt = document.querySelectorAll(".db-sidebar-opt")
+
 dashboard_sidebar_options_container.addEventListener("click",(e)=>{
     if(e.target.tagName == "LI"){
+        db_sidebar_opt.forEach(opt=>opt.classList.remove("db-sidebar-opt-active"))
+        e.target.classList.add("db-sidebar-opt-active") 
         db_sec_container.forEach(container=>{
             container.classList.remove("db-sec-active")
             if(e.target.dataset.section == container.id){
