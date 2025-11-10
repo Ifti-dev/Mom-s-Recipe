@@ -131,6 +131,12 @@ const count_wishlist = ()=>{
     return i
 }
 
+const slug_creator = (title)=>{
+    console.log(typeof(title))
+    console.log(title.replaceAll(" ","-"))
+    return title.toLowerCase().replaceAll(" ","-")
+}
+
 recipe_form.addEventListener("submit",(e)=>{
     e.preventDefault()
    
@@ -143,11 +149,12 @@ recipe_form.addEventListener("submit",(e)=>{
                 user: get_user_login_data.user_name,
                 wishlist_count: 0,
                 title : recipe_form_title.value,
+                slug: slug_creator(recipe_form_title.value),
                 desc : recipe_form_desc.value,
                 img : upload_recipe_img_db_src,
                 cook_hour : recipe_form_cook_hour.value,
                 cook_min : recipe_form_cook_min.value,
-                total_serving : recipe_form_total_serving,
+                total_serving : recipe_form_total_serving.value,
                 ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
                 instruction_list_data : get_li_inp_text_value(add_instruction_list),
                 recipe_id:recipe_list.length,
@@ -260,7 +267,10 @@ recipe_list_dashboard.addEventListener("click",(e)=>{
     let find_recipe_db = recipe_list.findIndex((recipe)=>recipe.recipe_unique_id==e.target.closest(".recipe-dashboard-card").dataset.unique_id)
     let find_recipe_db_element = recipe_list[find_recipe_db]
     if(e.target.className == "recipe-dashboard-card-edit-btn"){
-         
+        // To make form visible
+        recipe_creation_form.classList.add("db-sec-active")
+        document.body.classList.add("db-body-blur")
+        
         edit_recipe_card_db(find_recipe_db_element)
     }
     if(e.target.className == "recipe-dashboard-card-del-btn"){
