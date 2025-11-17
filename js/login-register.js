@@ -46,6 +46,7 @@ let user_login_data
 
 login_register_form.addEventListener("submit",(e)=>{
     e.preventDefault()
+    //for already registered user eg. login
     if(user_action)
     {
         const user_exist = user_list.find((user)=>{return user.user_name == username_email_login.value || user.email == username_email_login.value})
@@ -66,6 +67,7 @@ login_register_form.addEventListener("submit",(e)=>{
             alert("User doesn't exists")
         }
     }
+    //for new user eg. register
     else{
         let user_already_exist = user_list.find((user)=> user.user_name == login_register_user_name.value || user.email == login_register_user_email.value)
         
@@ -84,7 +86,8 @@ login_register_form.addEventListener("submit",(e)=>{
                     full_name:login_register_user_fullname.value,
                     email: login_register_user_email.value,
                     user_name: login_register_user_name.value,
-                    password:login_register_user_password.value
+                    password:login_register_user_password.value,
+                    wishlist:[] //we collect only the recipe-unique-id here cause what if the recipe owner change the data?
                 }
             )
             localStorage.setItem("user_list",JSON.stringify(user_list))

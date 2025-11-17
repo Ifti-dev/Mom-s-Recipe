@@ -211,6 +211,8 @@ const cancle_recipe_form = document.querySelector("#cancle-recipe-form")
 cancle_recipe_form.addEventListener("click",()=>{
     recipe_creation_form.classList.remove("db-sec-active")
     document.body.classList.remove("db-body-blur")
+    recipe_form_refresh()
+    //so that the form gets refreshed after clicking cancle(specially for edit). else If we click add new recipe we will see previously clicked edit recipe data
 
 })
 
@@ -218,7 +220,7 @@ cancle_recipe_form.addEventListener("click",()=>{
 
 const recipe_list_dashboard = document.querySelector(".recipe-list-body")
 
-const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id)=>{
+const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id,slug)=>{
     let new_recipe = `
                     <div class="recipe-dashboard-card" data-unique_id ="${recipe_unique_id}">
                         <div class="recipe-dashboard-card-img">
@@ -226,7 +228,7 @@ const create_recipe_card_db = (title,img_src,recipe_id,recipe_unique_id)=>{
                         </div>
                         <div class="recipe-dashboard-card-body">
                             <div class="recipe-dashboard-card-info">
-                                <h3>${title}</h3>
+                                <h3><a href="recipe-page.html?slug=${slug}">${title}</a></h3>
                                 <p>Recipe Id: <span>${recipe_id}</span></p>
                             </div>
                             
@@ -253,7 +255,7 @@ const check_recipe_list_to_create_card_db = ()=>{
     current_user_recipe_list = recipe_list.filter((recipe)=>recipe.user == get_user_login_data.user_name)
 
     current_user_recipe_list.forEach(element => {
-       create_recipe_card_db(element.title,element.img,element.recipe_id,element.recipe_unique_id)
+       create_recipe_card_db(element.title,element.img,element.recipe_id,element.recipe_unique_id,element.slug)
     });
 }
 check_recipe_list_to_create_card_db()
@@ -284,7 +286,7 @@ recipe_list_dashboard.addEventListener("click",(e)=>{
 })
 // title,desc,img,cook_hour,cook_min,ingredient_list_data,instruction_list_data,recipe_id,unique_id
 const edit_recipe_card_db = (element)=>{
-    
+    //here we are refreshing the form else previous list item will aso show in form
     recipe_form_refresh()
     edit_recipe_card_db_element = element.recipe_unique_id
     // recipe_form_file.value = element.title
@@ -380,4 +382,58 @@ dashboard_sidebar_options_container.addEventListener("click",(e)=>{
         
     }
     
+})
+
+
+//My wishlist section
+const wishlist_dashboard = document.querySelector(".wishlist-body")
+const delete_btn_wishlist_card_db = document.querySelector(".recipe-dashboard-wishlist-delete-btn")
+
+const create_wishlist_card_db = (title,img_src,recipe_id,recipe_unique_id,slug)=>{
+    let new_recipe = `
+                    <div class="recipe-dashboard-card" data-unique_id ="${recipe_unique_id}">
+                        <div class="recipe-dashboard-card-img">
+                            <img src="${img_src}" alt="">
+                        </div>
+                        <div class="recipe-dashboard-card-body">
+                            <div class="recipe-dashboard-card-info">
+                                <h3><a href="recipe-page.html?slug=${slug}">${title}</a></h3>
+                                <p>Recipe Id: <span>${recipe_id}</span></p>
+                            </div>
+                            
+                            <div class="recipe-dashboard-card-buttons">
+                                <button class="recipe-dashboard-wishlist-delete-btn"><i class="fa-solid fa-pen"></i> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+    `
+    wishlist_dashboard.innerHTML += new_recipe
+}
+
+let current_user_wishlist = current_user.wishlist
+const check_wishlist_to_create_card_db = ()=>{
+    recipe_list_dashboard.innerHTML = ``
+    
+    //so that everytime we call the func the container is initially empty (refreshed)
+    //and check for the latest data on recipe_list
+
+    current_user_wishlist.forEach(element => {
+        let wishlisted_recipe = recipe_list.find(recipe=> recipe.recipe_unique_id == element) 
+        create_wishlist_card_db(wishlisted_recipe.title,wishlisted_recipe.img,wishlisted_recipe.recipe_id,wishlisted_recipe.recipe_unique_id,wishlisted_recipe.slug)
+    });
+}
+check_wishlist_to_create_card_db()
+
+//My wishlist deletion function
+wishlist_dashboard.addEventListener("click",(e)=>{
+    let find_wishlist_db = current_user_wishlist.findIndex((wishlist)=>wishlist == e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+    
+    if(e.target.className == "recipe-dashboard-wishlist-delete-btn"){
+        // console.log(e.target.closest(".recipe-dashboard-card").dataset.unique_id)
+        
+        current_user_wishlist.splice(find_wishlist_db,1)
+        localStorage.setItem("user_list",JSON.stringify(user_list))
+
+        e.target.closest(".recipe-dashboard-card").remove()
+    }
 })

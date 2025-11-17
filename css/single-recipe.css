@@ -26,3 +26,38 @@
 .strike{
     text-decoration: line-through;
 }
+
+.must-log-in-pop-up{
+    background-color: rgb(255, 255, 255);
+    padding: 20px 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: var(--box-shadow);
+    position: absolute;
+    display: none;
+    
+}
+.must-log-in-pop-up h3{
+    font-size: 1.3rem;
+}
+.must-log-in-pop-up p{
+    font-size: 1rem;
+}
+.must-log-in-pop-up a{
+    padding: 10px 15px;
+    background-color: var(--primary-theme-color);
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    border:none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.wishlist-btn-container{
+    position: relative;
+    width: 100%;
+}

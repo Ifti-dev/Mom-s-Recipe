@@ -207,7 +207,7 @@ main::after{
     border-radius: 5px;
     cursor: pointer;
 }
-.recipe-dashboard-card-buttons button:first-child{
+.recipe-dashboard-card-buttons .recipe-dashboard-card-edit-btn{
     background-color: rgb(0, 223, 37);
 }
 

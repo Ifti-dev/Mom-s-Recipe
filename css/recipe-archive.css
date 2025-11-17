@@ -33,6 +33,12 @@
 .recipe-card-body h3{
     font-size: 1.5rem;
 }
+.recipe-card-body a{
+    color: black;
+}
+.recipe-card-body a:hover{
+    color: var(--primary-theme-color);
+}
 .recipe-card-user{
     display: flex;
     align-items: center;
