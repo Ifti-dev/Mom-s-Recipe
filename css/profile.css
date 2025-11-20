@@ -1,0 +1,29 @@
+.creator-profile-head{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.creator-profile-img-container{
+    max-width: 200px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.creator-profile-img-container img{
+    border-radius: 50%;
+}
+
+#creator-profile-fullname{
+    font-size: 2rem;
+
+}
+.creator-profile-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.creator-profile-body .recipe-card-container{
+    margin-top: 30px;
+}

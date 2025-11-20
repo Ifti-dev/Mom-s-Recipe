@@ -4,8 +4,21 @@ const user_list = JSON.parse(localStorage.getItem("user_list"))
 const recipe_card_container = document.querySelector(".recipe-card-container")
 
 const recipe_owner = (user_name)=>{
-    return user_list.find((user)=>user.user_id==user_name)
+    return user_list.find((user)=>user.user_name==user_name)
 }
+
+//Recipe list checker
+let recipe_show_list
+if(document.body.id=="creator-profile-page"){
+    let pram = new URLSearchParams(window.location.search)
+    let slug = pram.get("slug")
+    recipe_show_list = recipe_list.filter(recipe=>recipe.user == slug) 
+}
+else{
+    recipe_show_list = recipe_list
+}
+    
+
 
 //clicking on recipe card
 recipe_card_container.addEventListener("click",(e)=>{
@@ -17,7 +30,7 @@ recipe_card_container.addEventListener("click",(e)=>{
 })
 
 // added new a tag for redirecting in new page
-recipe_list.forEach(recipe => {
+recipe_show_list.forEach(recipe => {
     let recipe_card = `<div class="recipe-card" data-unique_id ="${recipe.recipe_unique_id}">
                     <div class="recipe-card-img-container">
                         <img src="${recipe.img}" alt="">
@@ -26,11 +39,11 @@ recipe_list.forEach(recipe => {
                         <h3><a href="recipe-page.html?slug=${recipe.slug}">${recipe.title}</a></h3>
                         <div class="recipe-card-user">
                             <img src="assets/icons/user-placeholder.webp" alt="">
-                            <p class="recipe-card-user-fullname">${recipe_owner(recipe.user_name).full_name}</p>
+                            <p class="recipe-card-user-fullname"><a href="profile.html?slug=${recipe.user}">${recipe_owner(recipe.user).full_name}</a></p>
                         </div>
                     </div>
                 </div>`
-    console.log(recipe.recipe_unique_id)
+    console.log(recipe.user)
     recipe_card_container.innerHTML += recipe_card
 });
 
