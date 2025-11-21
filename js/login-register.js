@@ -87,7 +87,8 @@ login_register_form.addEventListener("submit",(e)=>{
                     email: login_register_user_email.value,
                     user_name: login_register_user_name.value,
                     password:login_register_user_password.value,
-                    wishlist:[] //we collect only the recipe-unique-id here cause what if the recipe owner change the data?
+                    wishlist:[], //we collect only the recipe-unique-id here cause what if the recipe owner change the data?
+                    profile_pic:""
                 }
             )
             localStorage.setItem("user_list",JSON.stringify(user_list))

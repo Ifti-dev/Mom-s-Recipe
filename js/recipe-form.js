@@ -357,6 +357,40 @@ const set_new_password = ()=>{
 
 }
 
+//profile pic upload
+const profile_pic_file_input = document.querySelector("#profile-pic-file-input")
+const profile_pic = document.querySelector("#profile-pic")
+const profile_pic_default = document.querySelector("#profile-pic-default")
+
+profile_pic_file_input.addEventListener("input",()=>{
+    let img_file = profile_pic_file_input.files[0]
+    let reader = new FileReader()
+    reader.readAsDataURL(img_file)
+    reader.onload = ()=>{
+        current_user.profile_pic = reader.result
+        localStorage.setItem("user_list",JSON.stringify(user_list))
+        update_profile_pic()
+    }  
+})
+
+const update_profile_pic = ()=>{
+    
+    if(current_user.profile_pic !=""){
+        profile_pic.src = current_user.profile_pic
+        profile_pic.style.display = "block"
+        profile_pic_default.style.display = "none"
+        console.log("ooo")    
+    }
+
+    else{
+        profile_pic_default.textContent = current_user.user_name[0]
+        profile_pic.style.display = "none"
+        profile_pic_default.style.display = "block"
+    }
+}
+update_profile_pic()
+
+
 //dashboard section
 const user_total_recipe = document.querySelector("#user-total-recipe")
 const user_total_wishlist = document.querySelector("#user-total-wishlist")
@@ -412,7 +446,7 @@ const create_wishlist_card_db = (title,img_src,recipe_id,recipe_unique_id,slug)=
 
 let current_user_wishlist = current_user.wishlist
 const check_wishlist_to_create_card_db = ()=>{
-    recipe_list_dashboard.innerHTML = ``
+    wishlist_dashboard.innerHTML = ``
     
     //so that everytime we call the func the container is initially empty (refreshed)
     //and check for the latest data on recipe_list

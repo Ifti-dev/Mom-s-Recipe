@@ -48,9 +48,19 @@
 .recipe-card-user-fullname{
     font-size: 1.1rem;
 }
-.recipe-card-user img{
-    max-width: 50px;
+.recipe-card-user-img-cont{
+    width: 50px;
     height: 50px;
+    background-color: aqua;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+.recipe-card-user img{
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
