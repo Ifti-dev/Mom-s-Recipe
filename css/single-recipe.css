@@ -61,3 +61,51 @@
     position: relative;
     width: 100%;
 }
+
+
+
+/* Comment */
+#comment-container , .comment-reply-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.comment-reply-container{
+    margin-top: 20px;
+}
+
+.comment, .reply{
+    display: flex;
+    gap: 5px;
+}
+
+.comment-head{
+    width: 35px;
+    height: 35px;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.comment-avater{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-full-name{
+    font-weight: bold;
+}
+
+.comment-footer{
+    display: flex;
+    gap: 7px;
+}
+
+.comment-reply-btn, .comment-react-btn{
+    display: flex;
+    gap: 5px;
+}
+

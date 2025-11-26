@@ -158,7 +158,8 @@ recipe_form.addEventListener("submit",(e)=>{
                 ingredient_list_data : get_li_inp_text_value(add_ingredient_list),
                 instruction_list_data : get_li_inp_text_value(add_instruction_list),
                 recipe_id:recipe_list.length,
-                recipe_unique_id: recipe_unique_id
+                recipe_unique_id: recipe_unique_id,
+                comments:[]
             }
         )
     }

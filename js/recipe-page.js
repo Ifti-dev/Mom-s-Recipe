@@ -63,7 +63,7 @@ body.addEventListener("click",(e)=>{
     
     if(!e.target.closest(".must-log-in-pop-up") && e.target.id !== "wishlist-btn"){
         wishlist_pop_up.style.display = "none"
-        console.log("llllll")
+        // console.log("llllll")
     }
 })
 
@@ -96,3 +96,193 @@ const to_do_list_functionality=(cont)=>{
 
 to_do_list_functionality(ingredient_container)
 to_do_list_functionality(instruction_container)
+
+
+
+//Comment functionality
+const comment_form = document.querySelector("#comment-form")
+const comment_container = document.querySelector("#comment-container")
+const comment_input_box = document.querySelector("#comment-input-box")
+const comment_unique_id = ()=>{
+    let code = crypto.randomUUID()
+    return "cmt_" + code
+}
+
+
+const comment_creator = (comment)=>{
+    let comment_user = user_list.find(user=>user.user_name == comment.user_name)
+    
+    let new_comment =  ` 
+                    <div class="comment" data-id=${comment.id}>
+                        <div class="comment-head">
+                            <p class="profile-pic-default">I</p>
+                            <img src="${comment_user.profile_pic}" alt="" class="comment-avater">
+                        </div>
+                        <div class="comment-body">
+                            <p class="comment-full-name">${comment_user.full_name}</p>
+                            <p class="comment-text">${comment.comment}</p>
+                            <div class="comment-footer">
+                                <span class="comment-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
+                                <span class="comment-react-btn"><i class="fa-regular fa-heart"></i>5</span>
+                            </div>
+                            <div class="comment-reply-container">
+                            
+                            </div>
+                            
+                        </div>
+                    </div>`
+    
+    comment_container.innerHTML+=new_comment
+    let curr_comment = comment_container.lastElementChild
+    let comment_avater = curr_comment.querySelector(".comment-avater")
+    const profile_pic_default = curr_comment.querySelector(".profile-pic-default")
+    if(comment_user.profile_pic !=""){
+        comment_avater.src = comment_user.profile_pic
+        comment_avater.style.display = "block"
+        profile_pic_default.style.display = "none"
+        
+        
+    }
+
+    else{
+        profile_pic_default.textContent = comment_user.user_name[0]
+        comment_avater.style.display = "none"
+        profile_pic_default.style.display = "block"
+    }
+
+
+    if(comment.replies){
+        let comment_reply_container = curr_comment.querySelector(".comment-reply-container")
+
+        comment.replies.forEach(reply=>{
+            let reply_user = user_list.find(user=>user.user_name == reply.user_name)
+
+            comment_reply_container.innerHTML+=  ` 
+                    <div class="reply" data-id=${reply.id}>
+                        <div class="comment-head">
+                            <p class="profile-pic-default">I</p>
+                            <img src="${reply_user.profile_pic}" alt="" class="comment-avater">
+                        </div>
+                        <div class="comment-body">
+                            <p class="comment-full-name">${reply_user.full_name}</p>
+                            <p class="comment-text">${reply.comment}</p>
+                            <div class="comment-footer">
+                                <span class="reply-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
+                                <span class="comment-react-btn"><i class="fa-regular fa-heart"></i>5</span>
+                            </div>
+                            <div class="reply-reply-container">
+                            
+                            </div>
+                        </div>
+                    </div>`
+            
+            let curr_reply = comment_reply_container.lastElementChild
+            let comment_avater = curr_reply.querySelector(".comment-avater")
+            const profile_pic_default = curr_reply.querySelector(".profile-pic-default")
+            if(reply_user.profile_pic !=""){
+                comment_avater.src = reply_user.profile_pic
+                comment_avater.style.display = "block"
+                profile_pic_default.style.display = "none"
+                
+                
+            }
+
+            else{
+                profile_pic_default.textContent = reply_user.user_name[0]
+                comment_avater.style.display = "none"
+                profile_pic_default.style.display = "block"
+            }   
+        })
+    }
+    
+}
+
+
+
+//Update comment data at backend
+const update_comment_data = (key,parent_id, comment_text)=>{
+
+
+    if(key == "comment"){
+        get_currrent_recipe_data.comments.push(
+            {
+                comment: comment_input_box.value,
+                id: comment_unique_id(),
+                user_name: get_currrent_user_data.user_name,
+                replies:[]
+
+            }
+        )
+    }
+    else if(key == "reply"){
+        let parent_comment = get_currrent_recipe_data.comments.find(comment=>parent_id == comment.id)
+        parent_comment.replies.push({
+            comment: comment_text,
+            id: comment_unique_id(),
+            user_name: get_currrent_user_data.user_name,
+        })
+    }
+
+    localStorage.setItem("recipe_list",JSON.stringify(recipe_list))
+}
+
+
+
+//submit a comment
+comment_form.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    update_comment_data("comment")
+    comment_input_box.value=""
+    render_comments()
+})
+
+//clicked on reply
+comment_container.addEventListener("click",(e)=>{
+    if(e.target.className == "comment-reply-btn"){
+        comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //initially removing all reply inut box from the container
+        let curr_comment =  e.target.closest(".comment").querySelector(".comment-reply-container")
+        
+        //here innerHtml = new_form + innerHtml (so that the form gets added at the top of th container)
+        curr_comment.innerHTML = `
+                <form class="reply-form">
+                    <textarea name="reply-input-box" class="reply-input-box"></textarea>
+                    <input type="button" value="Cancle">
+                    <input type="submit">
+                </form>` + curr_comment.innerHTML 
+    }
+    if(e.target.className == "reply-reply-btn"){
+        comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //initially removing all reply inut box from the container
+        let curr_comment =  e.target.closest(".reply").querySelector(".reply-reply-container")
+        
+        //here innerHtml = new_form + innerHtml (so that the form gets added at the top of th container)
+        curr_comment.innerHTML = `
+                <form class="reply-form">
+                    <textarea name="reply-input-box" class="reply-input-box"></textarea>
+                    <input type="button" value="Cancle">
+                    <input type="submit">
+                </form>` + curr_comment.innerHTML 
+    }
+
+})
+
+//submit reply
+comment_container.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    //collecting the main comment cotainer to=> add data
+    let curr_comment =  e.target.closest(".comment")
+    //crrent reply form to=> collect data
+    let curr_form = e.target.closest(".reply-form")
+    
+    comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //removing all reply inut box from the container after submition
+    update_comment_data("reply", curr_comment.dataset.id,curr_form.querySelector(".reply-input-box").value)
+    render_comments()
+})
+
+//Render coments and replies
+const render_comments = ()=>{
+    comment_container.innerHTML =""
+    get_currrent_recipe_data.comments.forEach(comment=>{
+        comment_creator(comment)
+    })
+}
+render_comments()
