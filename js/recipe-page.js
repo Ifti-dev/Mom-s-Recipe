@@ -123,7 +123,7 @@ const comment_creator = (comment)=>{
                             <p class="comment-text">${comment.comment}</p>
                             <div class="comment-footer">
                                 <span class="comment-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
-                                <span class="comment-react-btn"><i class="fa-regular fa-heart"></i>5</span>
+                                <span><i class="fa-regular fa-heart comment-react-btn"></i>${comment.likes.length}</span>
                             </div>
                             <div class="comment-reply-container">
                             
@@ -133,21 +133,30 @@ const comment_creator = (comment)=>{
                     </div>`
     
     comment_container.innerHTML+=new_comment
+
+    //To update Profile picture if commenter has one or not
     let curr_comment = comment_container.lastElementChild
     let comment_avater = curr_comment.querySelector(".comment-avater")
     const profile_pic_default = curr_comment.querySelector(".profile-pic-default")
     if(comment_user.profile_pic !=""){
         comment_avater.src = comment_user.profile_pic
         comment_avater.style.display = "block"
-        profile_pic_default.style.display = "none"
-        
-        
+        profile_pic_default.style.display = "none"  
     }
 
     else{
         profile_pic_default.textContent = comment_user.user_name[0]
         comment_avater.style.display = "none"
         profile_pic_default.style.display = "block"
+    }
+
+    //To update the react button
+    if(comment.likes.find(user=>user == get_currrent_user_data.user_name))
+    {
+        curr_comment.querySelector(".comment-react-btn").classList.add("fa-solid")
+    }
+    else{
+        curr_comment.querySelector(".comment-react-btn").classList.remove("fa-solid")
     }
 
 
@@ -168,7 +177,7 @@ const comment_creator = (comment)=>{
                             <p class="comment-text">${reply.comment}</p>
                             <div class="comment-footer">
                                 <span class="reply-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
-                                <span class="comment-react-btn"><i class="fa-regular fa-heart"></i>5</span>
+                                <span><i class="fa-regular fa-heart comment-react-btn"></i>${reply.likes.length}</span>
                             </div>
                             <div class="reply-reply-container">
                             
@@ -183,15 +192,21 @@ const comment_creator = (comment)=>{
                 comment_avater.src = reply_user.profile_pic
                 comment_avater.style.display = "block"
                 profile_pic_default.style.display = "none"
-                
-                
             }
 
             else{
                 profile_pic_default.textContent = reply_user.user_name[0]
                 comment_avater.style.display = "none"
                 profile_pic_default.style.display = "block"
-            }   
+            }
+            
+            if(reply.likes.find(user=>user == get_currrent_user_data.user_name))
+            {
+                curr_reply.querySelector(".comment-react-btn").classList.add("fa-solid")
+            }
+            else{
+                curr_reply.querySelector(".comment-react-btn").classList.remove("fa-solid")
+            }
         })
     }
     
@@ -209,7 +224,8 @@ const update_comment_data = (key,parent_id, comment_text)=>{
                 comment: comment_input_box.value,
                 id: comment_unique_id(),
                 user_name: get_currrent_user_data.user_name,
-                replies:[]
+                replies:[],
+                likes:[]
 
             }
         )
@@ -220,6 +236,7 @@ const update_comment_data = (key,parent_id, comment_text)=>{
             comment: comment_text,
             id: comment_unique_id(),
             user_name: get_currrent_user_data.user_name,
+            likes:[]
         })
     }
 
@@ -236,8 +253,9 @@ comment_form.addEventListener("submit",(e)=>{
     render_comments()
 })
 
-//clicked on reply
+//clicked on Comments container
 comment_container.addEventListener("click",(e)=>{
+    //clicked on comment => reply
     if(e.target.className == "comment-reply-btn"){
         comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //initially removing all reply inut box from the container
         let curr_comment =  e.target.closest(".comment").querySelector(".comment-reply-container")
@@ -250,17 +268,55 @@ comment_container.addEventListener("click",(e)=>{
                     <input type="submit">
                 </form>` + curr_comment.innerHTML 
     }
+    //clicked on reply => reply
     if(e.target.className == "reply-reply-btn"){
         comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //initially removing all reply inut box from the container
         let curr_comment =  e.target.closest(".reply").querySelector(".reply-reply-container")
-        
-        //here innerHtml = new_form + innerHtml (so that the form gets added at the top of th container)
         curr_comment.innerHTML = `
                 <form class="reply-form">
                     <textarea name="reply-input-box" class="reply-input-box"></textarea>
                     <input type="button" value="Cancle">
                     <input type="submit">
-                </form>` + curr_comment.innerHTML 
+                </form>` //the form gets added at the bottom of the container
+    }
+    
+    //comment and reply => react button
+    if(e.target.classList.contains("comment-react-btn")){
+        let parent_comment = e.target.closest(".comment")
+        let parent_reply = e.target.closest(".reply")
+
+        let curr_comment = get_currrent_recipe_data.comments.find(comment => parent_comment.dataset.id == comment.id)
+
+        if(parent_reply)
+        {
+            //reply exist       
+            let curr_reply = curr_comment.replies.find(reply => parent_reply.dataset.id == reply.id)
+            let check_already_liked = curr_reply.likes.findIndex(user=>user == get_currrent_user_data.user_name)
+            
+            if(check_already_liked == -1){
+                curr_reply.likes.push(get_currrent_user_data.user_name)
+                e.target.classList.add("fa-solid")
+                console.log("donee")
+            }
+            else{
+                e.target.classList.remove("fa-solid")
+                curr_reply.likes.splice(check_already_liked, 1)
+            }
+
+        }
+        else{
+            let check_already_liked = curr_comment.likes.findIndex(user=>user == get_currrent_user_data.user_name)
+            console.log(parent_comment.dataset.id)
+            if(check_already_liked == -1){
+                curr_comment.likes.push(get_currrent_user_data.user_name)
+                console.log("donee")
+            }
+            else{
+                curr_comment.likes.splice(check_already_liked, 1)
+            }
+        }
+        localStorage.setItem("recipe_list", JSON.stringify(recipe_list))
+        render_comments()
     }
 
 })
