@@ -4,7 +4,10 @@ const get_currrent_recipe_data = recipe_list.find(recipe=> recipe.recipe_unique_
 
 const user_list = JSON.parse(localStorage.getItem("user_list"))
 const logged_in_user = JSON.parse(localStorage.getItem("user_login_data"))
-const get_currrent_user_data = user_list.find(user=> user.user_name==logged_in_user.user_name)
+const get_currrent_user_data = user_list.find(user=> {
+    if(logged_in_user)
+        return user.user_name==logged_in_user.user_name
+    })
 
 
 const single_recipe_wrapper = document.querySelector(".single-recipe-wrapper")
@@ -21,11 +24,6 @@ single_recipe_wrapper.innerHTML = `<h1>${get_currrent_recipe_data.title}</h1>
             
             <div class="wishlist-btn-container">
                 <button id="wishlist-btn">Wishlist</button>
-                <div class="must-log-in-pop-up">
-                    <h3>Wishlist this recipe?</h3>
-                    <p>Sign in to make your wishlist count</p>
-                    <a href="login.html">Sign in</a>
-                </div>
             </div>
             
             <h2>Ingredients</h2>
@@ -40,11 +38,13 @@ single_recipe_wrapper.innerHTML = `<h1>${get_currrent_recipe_data.title}</h1>
 
 //For Wishlist functionality
 const wishlist_btn = document.querySelector("#wishlist-btn")
-const wishlist_pop_up = document.querySelector(".must-log-in-pop-up")
+const wishlist_btn_container = document.querySelector(".wishlist-btn-container")
 
 
 const body = document.querySelector("body")
-wishlist_btn.addEventListener("click",()=>{
+wishlist_btn_container.addEventListener("click",()=>{
+    
+    //If you want you can check if e.target.className == wishlist_btn the do the functionality
     if(logged_in_user){
         //Updating the recipe wishlist count
         get_currrent_recipe_data.wishlist_count+=1
@@ -53,21 +53,12 @@ wishlist_btn.addEventListener("click",()=>{
         //Adding the wishlisted recipe in user wishlist
         get_currrent_user_data.wishlist.push(get_currrent_recipe_data.recipe_unique_id)
         localStorage.setItem("user_list",JSON.stringify(user_list))
+        
     }
     else{
-        wishlist_pop_up.style.display = "flex"
+        wishlist_btn_container.innerHTML = wishlist_btn_container.innerHTML + non_user_alert("Wishlist this recipe?","Sign in to make your wishlist count")
     }   
 })
-
-body.addEventListener("click",(e)=>{
-    
-    if(!e.target.closest(".must-log-in-pop-up") && e.target.id !== "wishlist-btn"){
-        wishlist_pop_up.style.display = "none"
-        // console.log("llllll")
-    }
-})
-
-
 
 //For ingredient and instruction step creation
 const to_do_list_creation = (list,container)=>{
@@ -123,7 +114,7 @@ const comment_creator = (comment)=>{
                             <p class="comment-text">${comment.comment}</p>
                             <div class="comment-footer">
                                 <span class="comment-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
-                                <span><i class="fa-regular fa-heart comment-react-btn"></i>${comment.likes.length}</span>
+                                <span class="comment-react-btn-container"><i class="fa-regular fa-heart comment-react-btn"></i>${comment.likes.length}</span>
                             </div>
                             <div class="comment-reply-container">
                             
@@ -151,7 +142,7 @@ const comment_creator = (comment)=>{
     }
 
     //To update the react button
-    if(comment.likes.find(user=>user == get_currrent_user_data.user_name))
+    if(logged_in_user && comment.likes.find(user=>user == get_currrent_user_data.user_name))
     {
         curr_comment.querySelector(".comment-react-btn").classList.add("fa-solid")
     }
@@ -177,7 +168,7 @@ const comment_creator = (comment)=>{
                             <p class="comment-text">${reply.comment}</p>
                             <div class="comment-footer">
                                 <span class="reply-reply-btn"><i class="fa-regular fa-comment"></i>Reply</span>
-                                <span><i class="fa-regular fa-heart comment-react-btn"></i>${reply.likes.length}</span>
+                                <span class="comment-react-btn-container"><i class="fa-regular fa-heart comment-react-btn"></i>${reply.likes.length}</span>
                             </div>
                             <div class="reply-reply-container">
                             
@@ -200,7 +191,8 @@ const comment_creator = (comment)=>{
                 profile_pic_default.style.display = "block"
             }
             
-            if(reply.likes.find(user=>user == get_currrent_user_data.user_name))
+            //To update the react button
+            if(logged_in_user && reply.likes.find(user=>user == get_currrent_user_data.user_name))
             {
                 curr_reply.querySelector(".comment-react-btn").classList.add("fa-solid")
             }
@@ -261,62 +253,86 @@ comment_container.addEventListener("click",(e)=>{
         let curr_comment =  e.target.closest(".comment").querySelector(".comment-reply-container")
         
         //here innerHtml = new_form + innerHtml (so that the form gets added at the top of th container)
-        curr_comment.innerHTML = `
-                <form class="reply-form">
-                    <textarea name="reply-input-box" class="reply-input-box"></textarea>
-                    <input type="button" value="Cancle">
-                    <input type="submit">
-                </form>` + curr_comment.innerHTML 
+        if(logged_in_user){
+            curr_comment.innerHTML = `
+                    <form class="reply-form">
+                        <textarea name="reply-input-box" class="reply-input-box"></textarea>
+                        <input type="button" value="Cancle">
+                        <input type="submit">
+                    </form>` + curr_comment.innerHTML 
+        }
+        else{
+            curr_comment.innerHTML = non_user_alert("Want to join the conversation?","Sign in to continue") + curr_comment.innerHTML
+        }
     }
     //clicked on reply => reply
     if(e.target.className == "reply-reply-btn"){
         comment_container.querySelectorAll(".reply-form").forEach(form=>form.remove()) //initially removing all reply inut box from the container
         let curr_comment =  e.target.closest(".reply").querySelector(".reply-reply-container")
-        curr_comment.innerHTML = `
-                <form class="reply-form">
-                    <textarea name="reply-input-box" class="reply-input-box"></textarea>
-                    <input type="button" value="Cancle">
-                    <input type="submit">
-                </form>` //the form gets added at the bottom of the container
+        if(logged_in_user){
+            curr_comment.innerHTML = `
+                    <form class="reply-form">
+                        <textarea name="reply-input-box" class="reply-input-box"></textarea>
+                        <input type="button" value="Cancle">
+                        <input type="submit">
+                    </form>` //the form gets added at the bottom of the container
+        }
+        else{
+            curr_comment.innerHTML = non_user_alert("Want to join the conversation?","Sign in to continue")
+        }
     }
     
     //comment and reply => react button
     if(e.target.classList.contains("comment-react-btn")){
         let parent_comment = e.target.closest(".comment")
         let parent_reply = e.target.closest(".reply")
-
+        // let parent_reply_container = parent_reply.querySelector(".reply-reply-container")
+        
         let curr_comment = get_currrent_recipe_data.comments.find(comment => parent_comment.dataset.id == comment.id)
 
         if(parent_reply)
         {
-            //reply exist       
-            let curr_reply = curr_comment.replies.find(reply => parent_reply.dataset.id == reply.id)
-            let check_already_liked = curr_reply.likes.findIndex(user=>user == get_currrent_user_data.user_name)
-            
-            if(check_already_liked == -1){
-                curr_reply.likes.push(get_currrent_user_data.user_name)
-                e.target.classList.add("fa-solid")
-                console.log("donee")
+            if(logged_in_user){
+                //reply exist       
+                let curr_reply = curr_comment.replies.find(reply => parent_reply.dataset.id == reply.id)
+                let check_already_liked = curr_reply.likes.findIndex(user=>user == get_currrent_user_data.user_name)
+                
+                if(check_already_liked == -1){
+                    curr_reply.likes.push(get_currrent_user_data.user_name)
+                    e.target.classList.add("fa-solid")
+                    console.log("donee")
+                }
+                else{
+                    e.target.classList.remove("fa-solid")
+                    curr_reply.likes.splice(check_already_liked, 1)
+                }
+                //refresh render only if the user is logged-in. If you use it end of parent it will first add pop than refresh wich will remove the pop up
+                render_comments()
             }
             else{
-                e.target.classList.remove("fa-solid")
-                curr_reply.likes.splice(check_already_liked, 1)
+                parent_reply.querySelector(".reply-reply-container").innerHTML = non_user_alert("Want to join the conversation?","Sign in to continue")
             }
 
         }
         else{
-            let check_already_liked = curr_comment.likes.findIndex(user=>user == get_currrent_user_data.user_name)
-            console.log(parent_comment.dataset.id)
-            if(check_already_liked == -1){
-                curr_comment.likes.push(get_currrent_user_data.user_name)
-                console.log("donee")
+            if(logged_in_user){
+                let check_already_liked = curr_comment.likes.findIndex(user=>user == get_currrent_user_data.user_name)
+                console.log(parent_comment.dataset.id)
+                if(check_already_liked == -1){
+                    curr_comment.likes.push(get_currrent_user_data.user_name)
+                    console.log("donee")
+                }
+                else{
+                    curr_comment.likes.splice(check_already_liked, 1)
+                }
+                render_comments()
             }
             else{
-                curr_comment.likes.splice(check_already_liked, 1)
+                parent_comment.querySelector(".comment-reply-container").innerHTML = non_user_alert("Want to join the conversation?","Sign in to continue") + parent_comment.querySelector(".comment-reply-container").innerHTML
             }
         }
         localStorage.setItem("recipe_list", JSON.stringify(recipe_list))
-        render_comments()
+        
     }
 
 })
@@ -334,7 +350,7 @@ comment_container.addEventListener("submit",(e)=>{
     render_comments()
 })
 
-//Render coments and replies
+//Render comments and replies
 const render_comments = ()=>{
     comment_container.innerHTML =""
     get_currrent_recipe_data.comments.forEach(comment=>{
@@ -342,3 +358,32 @@ const render_comments = ()=>{
     })
 }
 render_comments()
+
+//Non user intereaction alert
+//Add Non user intereaction(comment,reply,like) alert
+const non_user_alert = (header,msg)=>{
+    document.querySelectorAll(".must-log-in-pop-up").forEach(alert=>{
+            alert.remove()        
+        })
+    
+    return `   <div class="must-log-in-pop-up">
+                                            <h3>${header}</h3>
+                                            <p>${msg}</p>
+                                            <a href="login.html">Sign in</a>
+                                        </div>`
+}
+
+document.querySelector(".comment-sec-wrapper").addEventListener("click",(e)=>{
+    if(e.target.closest("#comment-form") && !logged_in_user){
+        comment_container.innerHTML += non_user_alert("Want to join the conversation?","Sign in to continue")
+    }
+})
+
+//Remove Non user intereaction alert
+body.addEventListener("click",(e)=>{
+    if(!e.target.closest(".must-log-in-pop-up") && e.target.id !== "wishlist-btn" && !e.target.closest(".comment") && !e.target.closest("#comment-form")){
+        document.querySelectorAll(".must-log-in-pop-up").forEach(alert=>{
+            alert.remove()        
+        })
+    }
+})

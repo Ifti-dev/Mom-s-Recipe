@@ -27,6 +27,7 @@
     text-decoration: line-through;
 }
 
+/* Non user intereaction alert */
 .must-log-in-pop-up{
     background-color: rgb(255, 255, 255);
     padding: 20px 25px;
@@ -37,8 +38,7 @@
     gap: 15px;
     box-shadow: var(--box-shadow);
     position: absolute;
-    display: none;
-    
+    z-index: 1000;
 }
 .must-log-in-pop-up h3{
     font-size: 1.3rem;
@@ -57,6 +57,7 @@
     cursor: pointer;
 }
 
+
 .wishlist-btn-container{
     position: relative;
     width: 100%;
@@ -72,6 +73,9 @@
 }
 .comment-reply-container{
     margin-top: 20px;
+}
+.reply-reply-container{
+    position: relative;
 }
 
 .comment, .reply{
@@ -104,8 +108,8 @@
     gap: 7px;
 }
 
-.comment-reply-btn, .comment-react-btn{
+.comment-reply-btn,.reply-reply-btn, .comment-react-btn-container{
     display: flex;
-    gap: 5px;
+    gap: 3px;
 }
 
