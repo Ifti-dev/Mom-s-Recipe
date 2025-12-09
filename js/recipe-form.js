@@ -126,7 +126,7 @@ let get_user_login_data = JSON.parse(localStorage.getItem("user_login_data"))
 const count_wishlist = ()=>{
     let i = 0
     current_user_recipe_list.forEach((recipe)=>{
-        i+=recipe.wishlist_count
+        i+=recipe.wishlist_count.length
     })
     return i
 }
@@ -147,7 +147,7 @@ recipe_form.addEventListener("submit",(e)=>{
         recipe_list.push(
             {
                 user: get_user_login_data.user_name,
-                wishlist_count: 0,
+                wishlist_count: [],
                 title : recipe_form_title.value,
                 slug: slug_creator(recipe_form_title.value),
                 desc : recipe_form_desc.value,
@@ -453,8 +453,10 @@ const check_wishlist_to_create_card_db = ()=>{
     //and check for the latest data on recipe_list
 
     current_user_wishlist.forEach(element => {
-        let wishlisted_recipe = recipe_list.find(recipe=> recipe.recipe_unique_id == element) 
-        create_wishlist_card_db(wishlisted_recipe.title,wishlisted_recipe.img,wishlisted_recipe.recipe_id,wishlisted_recipe.recipe_unique_id,wishlisted_recipe.slug)
+        console.log(element)
+        let wishlisted_recipe = recipe_list.find(recipe=> recipe.recipe_unique_id == element)
+        if(wishlisted_recipe) 
+            create_wishlist_card_db(wishlisted_recipe.title,wishlisted_recipe.img,wishlisted_recipe.recipe_id,wishlisted_recipe.recipe_unique_id,wishlisted_recipe.slug)
     });
 }
 check_wishlist_to_create_card_db()

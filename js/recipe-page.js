@@ -42,17 +42,38 @@ const wishlist_btn_container = document.querySelector(".wishlist-btn-container")
 
 
 const body = document.querySelector("body")
+
+if(get_currrent_user_data.wishlist.find(wish=>get_currrent_recipe_data.recipe_unique_id == wish))
+    wishlist_btn.style.background = "orange"
+
 wishlist_btn_container.addEventListener("click",()=>{
     
     //If you want you can check if e.target.className == wishlist_btn the do the functionality
     if(logged_in_user){
+
         //Updating the recipe wishlist count
-        get_currrent_recipe_data.wishlist_count+=1
+        const current_user_index_from_recipe = get_currrent_recipe_data.wishlist_count.findIndex(user=>get_currrent_user_data.user_name == user)
+        if(current_user_index_from_recipe == -1){
+            get_currrent_recipe_data.wishlist_count.push(get_currrent_user_data.user_name)
+        }
+        else{
+            get_currrent_recipe_data.wishlist_count.splice(current_user_index_from_recipe,1)
+        }
         localStorage.setItem("recipe_list",JSON.stringify(recipe_list))
         
         //Adding the wishlisted recipe in user wishlist
-        get_currrent_user_data.wishlist.push(get_currrent_recipe_data.recipe_unique_id)
+        const current_recipe_index_from_user = get_currrent_user_data.wishlist.findIndex(wish=>get_currrent_recipe_data.recipe_unique_id == wish)
+        if(current_recipe_index_from_user == -1){
+            get_currrent_user_data.wishlist.push(get_currrent_recipe_data.recipe_unique_id)
+            wishlist_btn.style.background = "orange"
+        }
+        else{
+            get_currrent_user_data.wishlist.splice(current_recipe_index_from_user,1)
+            wishlist_btn.style.background = "white"
+        }
+
         localStorage.setItem("user_list",JSON.stringify(user_list))
+        
         
     }
     else{

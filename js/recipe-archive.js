@@ -24,7 +24,6 @@ else{
 recipe_card_container.addEventListener("click",(e)=>{
     let card = e.target.closest(".recipe-card")
     if(card)
-        console.log(card)
         localStorage.setItem("curr_recipe",JSON.stringify(card.dataset.unique_id))
     
 })
