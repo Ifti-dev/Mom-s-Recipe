@@ -16,24 +16,26 @@ single_recipe_wrapper.innerHTML = `<h1>${get_currrent_recipe_data.title}</h1>
                 <img src="${get_currrent_recipe_data.img}" alt="">
             </div>
             <div class="recipe-page-body"> 
-            
-            <p>Total Serving: ${get_currrent_recipe_data.total_serving}</p>
-            <p>Cook Hour: ${get_currrent_recipe_data.cook_hour}</p>
-            <p>Cook Minute: ${get_currrent_recipe_data.cook_min}</p>
-            <p>${get_currrent_recipe_data.desc}</p>
-            
-            <div class="wishlist-btn-container">
-                <button id="wishlist-btn">Wishlist</button>
-            </div>
-            
-            <h2>Ingredients</h2>
-            <ol id="ingredient_container">
+                <div class="recipe-time-serve-cont">
+                    <div><p>Total Serving:</p>${get_currrent_recipe_data.total_serving}</div>
+                    <div><p>Cook Hour:</p>${get_currrent_recipe_data.cook_hour}</div>
+                    <div><p>Cook Minute:</p>${get_currrent_recipe_data.cook_min}</div>
+                    <div class="wishlist-btn-container">
+                    <button id="wishlist-btn">Wishlist</button>
+                </div>
+                </div>
+                <p>${get_currrent_recipe_data.desc}</p>
                 
-            </ol>
-            <h2>Instructions</h2>
-            <ol id="instruction_container">
                 
-            </ol>
+                
+                <h2>Ingredients</h2>
+                <ol id="ingredient_container">
+                    
+                </ol>
+                <h2>Instructions</h2>
+                <ol id="instruction_container">
+                    
+                </ol>
             </div>`
 
 //For Wishlist functionality
@@ -43,7 +45,7 @@ const wishlist_btn_container = document.querySelector(".wishlist-btn-container")
 
 const body = document.querySelector("body")
 
-if(get_currrent_user_data.wishlist.find(wish=>get_currrent_recipe_data.recipe_unique_id == wish))
+if(get_currrent_user_data && get_currrent_user_data.wishlist.find(wish=>get_currrent_recipe_data.recipe_unique_id == wish))
     wishlist_btn.style.background = "orange"
 
 wishlist_btn_container.addEventListener("click",()=>{
@@ -85,10 +87,12 @@ wishlist_btn_container.addEventListener("click",()=>{
 const to_do_list_creation = (list,container)=>{
     list.forEach(element => {
         
-        const new_li = document.createElement("li")
-        new_li.textContent = element
-        
-        container.appendChild(new_li)
+        const new_li = document.createElement("input")
+        const new_label = document.createElement("label")
+        new_li.type = "checkbox"
+
+        new_label.innerHTML = `<input type = "checkbox"> ${element}`
+        container.appendChild(new_label)
     });
 }     
 const ingredient_container = document.getElementById("ingredient_container")
@@ -99,9 +103,8 @@ to_do_list_creation(get_currrent_recipe_data.instruction_list_data,instruction_c
 //For ingredient and instruction step to do functionality like cross the step after fulfilled
 const to_do_list_functionality=(cont)=>{
     cont.addEventListener("click",(e)=>{
-        if(e.target.tagName == "LI"){
-            console.log(e.target)
-            e.target.classList.toggle("strike")
+        if(e.target.tagName == "INPUT"){//cause clicking in label also means clicking the element inside that label
+            e.target.closest("label").classList.toggle("strike")
         }
     })
 }
@@ -408,3 +411,76 @@ body.addEventListener("click",(e)=>{
         })
     }
 })
+
+
+
+//sidebar trending and recent recipes
+const sidebar_recipe_card_create = (recipe)=> {
+    let recipe_user = user_list.find(user=>user.user_name == recipe.user)
+    return `<div class="sidebar-recipe-card" data-unique_id ="${recipe.recipe_unique_id}">
+                                <div class="sidebar-recipe-card-img">
+                                    <img src="${recipe.img}" alt="">
+                                </div>
+                                
+                                <div class="sidebar-recipe-card-info">
+                                    <h3><a href="recipe-page.html?slug=${recipe.slug}">${recipe.title}</a></h3>
+                                    <div class="sidebar-recipe-card-footer">
+                                        <div class="sidebar-recipe-card-footer-img-cont">
+                                            <p class="profile-pic-default">I</p>
+                                            <img src="${recipe_user.profile_pic}" alt="" class="comment-avater">
+                                        </div>
+                                        <p class="comment-full-name">${recipe_user.full_name}</p>
+                                    </div>
+                                </div>
+                              
+                            </div>`  }              
+
+let sidebar_trending_recipe = document.querySelector(".sidebar-trending-recipe")
+let sidebar_recent_recipe = document.querySelector(".sidebar-recent-recipe")
+
+
+let trending_recipe_list = recipe_list.toSorted((a,b) => b.wishlist_count.length - a.wishlist_count.length)
+console.log(trending_recipe_list)
+
+
+
+let sidebar_recipe_cards = (list, container,x)=>{
+    let recipe_counter = 0
+    list.forEach(recipe=>{
+
+        if(recipe_counter < 3){
+            container.innerHTML += sidebar_recipe_card_create(recipe)
+
+            let recipe_user = user_list.find(user=>user.user_name == recipe.user)
+            let curr_recipe_card = container.lastElementChild
+            let comment_avater = curr_recipe_card.querySelector(".comment-avater")
+            const profile_pic_default = curr_recipe_card.querySelector(".profile-pic-default")
+
+            if(recipe_user.profile_pic !=""){
+                comment_avater.src = recipe_user.profile_pic
+                comment_avater.style.display = "block"
+                profile_pic_default.style.display = "none"
+            }
+
+            else{
+                profile_pic_default.textContent = recipe_user.user_name[0]
+                comment_avater.style.display = "none"
+                profile_pic_default.style.display = "block"
+            }
+        }       
+
+        recipe_counter += 1
+    })
+}
+sidebar_recipe_cards(trending_recipe_list, sidebar_trending_recipe)
+sidebar_recipe_cards(recipe_list.reverse(), sidebar_recent_recipe, true)
+
+
+document.querySelector(".recipe-page-sidebar-container").addEventListener("click",(e)=>{
+        let card = e.target.closest(".recipe-dashboard-card")
+        if(card)
+            localStorage.setItem("curr_recipe", JSON.stringify(card.dataset.unique_id))
+})
+
+
+

@@ -6,10 +6,10 @@
 }
 
 
-main{
+/* main{
     max-width: 1160px;
     gap: 10px;
-}
+} */
 main::after{
     content: "";
     position: absolute;

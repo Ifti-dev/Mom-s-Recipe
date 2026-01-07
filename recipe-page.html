@@ -10,69 +10,46 @@
 </head>
 <body>
     <header></header>
-    <main>
-        <section class="wrapper-main single-recipe-wrapper">
+    <main class="main-with-sidebar">
+        <section class="single-recipe-content-container">
+            <section class="single-recipe-wrapper">
             
-        </section>
-        <section class="comment-sec-container">
-            <div class="comment-sec-wrapper wrapper-main">
-                <form id="comment-form" class="comment-form">
-                    <textarea name="comment-input-box" id="comment-input-box"></textarea>
-                    <input type="button" value="Cancle">
-                    <input type="submit">
-                </form>
-                
-                <div id="comment-container">
-                    <!-- <div class="comment">
-                        <div class="comment-head">
-                            <img src="assets/images/Chicken-Biryani.jpg" alt="" class="comment-avater">
-                        </div>
-                        <div class="comment-body">
-                            <p class="comment-full-name">Mohammed Iftekhar</p>
-                            <p class="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum cupiditate natus consequuntur!</p>
-                            <div class="comment-footer">
-                                <span><i class="fa-regular fa-comment"></i>Reply</span>
-                                <span><i class="fa-regular fa-heart"></i>5</span>
-                            </div>
-                            <div class="comment-reply-container">
-                                <div class="comment">
-                                    <div class="comment-head">
-                                        <img src="assets/images/Chicken-Biryani.jpg" alt="" class="comment-avater">
-                                    </div>
-                                    <div class="comment-body">
-                                        <p class="comment-full-name">Mohammed Iftekhar</p>
-                                        <p class="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum cupiditate natus consequuntur!</p>
-                                        <div class="comment-footer">
-                                            <span><i class="fa-regular fa-comment"></i>Reply</span>
-                                            <span><i class="fa-regular fa-heart"></i>5</span>
-                                        </div>
-                                    </div>
-                                 </div>
-                            </div>
-                        </div>
+            </section>
+            <section class="comment-sec-container">
+                <div class="comment-sec-wrapper">
+                    <h2>Comments:</h2>
+                    <hr>
+                    <form id="comment-form" class="comment-form">
+                        <textarea name="comment-input-box" id="comment-input-box"></textarea>
+                        <input type="button" value="Cancle">
+                        <input type="submit">
+                    </form>
+                    
+                    <div id="comment-container">
+                       <!-- comments are added here -->
                     </div>
-                    <div class="comment">
-                        <div class="comment-head">
-                            <img src="assets/images/Chicken-Biryani.jpg" alt="" class="comment-avater">
-                        </div>
-                        <div class="comment-body">
-                            <p class="comment-full-name">Mohammed Iftekhar</p>
-                            <p class="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum cupiditate natus consequuntur!</p>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <div class="comment-head">
-                            <img src="assets/images/Chicken-Biryani.jpg" alt="" class="comment-avater">
-                        </div>
-                        <div class="comment-body">
-                            <p class="comment-full-name">Mohammed Iftekhar</p>
-                            <p class="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum cupiditate natus consequuntur!</p>
-                        </div>
-                    </div> -->
                 </div>
-            </div>
 
+            </section>
         </section>
+
+        <aside class="recipe-page-sidebar-container">
+                    <h2>Trending Recipes</h2>
+                    <div class="sidebar-trending-recipe">
+                        
+                    </div>
+
+                    <div class="sign-up-box">
+                        <h3>Wanna share your Recipe?</h3>
+                        <p>Join now</p>
+                        <a href="login.html">Sign up</a>
+                    </div>
+
+                    <h2>Recent Recipes</h2>
+                    <div class="sidebar-recent-recipe">
+                        
+                    </div>
+        </aside>
     </main>
     <footer>
         <script src="js/header-footer.js"></script>

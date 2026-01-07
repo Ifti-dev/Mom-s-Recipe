@@ -45,6 +45,8 @@ main{
     margin-top: 30px;
 }
 .main-with-sidebar{
+    max-width: 1160px;
+    gap: 10px;
     flex-direction: row;
     justify-content: center;
     align-items: start;

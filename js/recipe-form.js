@@ -142,7 +142,7 @@ recipe_form.addEventListener("submit",(e)=>{
    
     //For new recipe
     if(!edit_recipe_card_db_element){
-            
+        recipe_form_file.required = true
         let recipe_unique_id = crypto.randomUUID()
         recipe_list.push(
             {
@@ -205,6 +205,7 @@ const recipe_form_refresh = ()=>{
     if(recipe_form_img_file_cont.getElementsByTagName("img")[0])
         recipe_form_img_file_cont.removeChild(recipe_form_img_file_cont.getElementsByTagName("img")[0])
     edit_recipe_card_db_element = ""
+    upload_recipe_img_db_src = ""
 }
 
 //Form cancle button it removes the recipe form and body background blur
@@ -292,6 +293,7 @@ const edit_recipe_card_db = (element)=>{
     edit_recipe_card_db_element = element.recipe_unique_id
     // recipe_form_file.value = element.title
     upload_recipe_img_db_src = element.img
+    recipe_form_file.required = false
     preview_recipe_img_db()
     
     recipe_form_title.value = element.title
