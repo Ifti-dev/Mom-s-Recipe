@@ -16,22 +16,24 @@ single_recipe_wrapper.innerHTML = `<h1>${get_currrent_recipe_data.title}</h1>
                 <img src="${get_currrent_recipe_data.img}" alt="">
             </div>
             <div class="recipe-page-body"> 
-                <div class="recipe-time-serve-cont">
-                    <div><p>Total Serving:</p>${get_currrent_recipe_data.total_serving}</div>
-                    <div><p>Cook Hour:</p>${get_currrent_recipe_data.cook_hour}</div>
-                    <div><p>Cook Minute:</p>${get_currrent_recipe_data.cook_min}</div>
+                <div class="recipe-page-body-top"> 
+                    <div class="recipe-time-serve-cont">
+                        <div><p>Total Serving:</p>${get_currrent_recipe_data.total_serving}</div>
+                        <div><p>Cook Hour:</p>${get_currrent_recipe_data.cook_hour}</div>
+                        <div><p>Cook Minute:</p>${get_currrent_recipe_data.cook_min}</div>
+                        
+                    </div>
                     <div class="wishlist-btn-container">
-                    <button id="wishlist-btn">Wishlist</button>
-                </div>
+                            <button id="wishlist-btn">Wishlist</button>
+                    </div>
                 </div>
                 <p>${get_currrent_recipe_data.desc}</p>
-                
-                
-                
+      
                 <h2>Ingredients</h2>
                 <ol id="ingredient_container">
                     
                 </ol>
+
                 <h2>Instructions</h2>
                 <ol id="instruction_container">
                     
@@ -429,7 +431,7 @@ const sidebar_recipe_card_create = (recipe)=> {
                                             <p class="profile-pic-default">I</p>
                                             <img src="${recipe_user.profile_pic}" alt="" class="comment-avater">
                                         </div>
-                                        <p class="comment-full-name">${recipe_user.full_name}</p>
+                                        <p class="comment-full-name"><a href="profile.html?slug=${recipe.user}">${recipe_user.full_name}</a></p>
                                     </div>
                                 </div>
                               

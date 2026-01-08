@@ -32,7 +32,7 @@ a{
     align-items: center;
 }
 
-main{
+.main-without-sidebar{
     display: flex;
     /* justify-content: center; */
     flex-direction: column;
@@ -46,10 +46,16 @@ main{
 }
 .main-with-sidebar{
     max-width: 1160px;
+    display: flex;
     gap: 10px;
     flex-direction: row;
     justify-content: center;
     align-items: start;
+
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+    margin-top: 30px;
 }
 .wrapper-main{
     width: 100%;
