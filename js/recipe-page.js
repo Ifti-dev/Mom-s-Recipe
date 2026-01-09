@@ -11,7 +11,23 @@ const get_currrent_user_data = user_list.find(user=> {
 
 
 const single_recipe_wrapper = document.querySelector(".single-recipe-wrapper")
-single_recipe_wrapper.innerHTML = `<h1>${get_currrent_recipe_data.title}</h1>
+let curr_recipe_user = user_list.find(user=>user.user_name == get_currrent_recipe_data.user)
+single_recipe_wrapper.innerHTML = `
+            <nav class="breadcrumbs">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="recipe.html">Recipe</a></li>
+                    <li><a href="recipe-page.html?slug=${get_currrent_recipe_data.slug}">${get_currrent_recipe_data.title}</a></li>
+                </ul>
+            </nav>
+            <div class="recipe-page-top">
+                <h1 class="recipe-title">${get_currrent_recipe_data.title}</h1>
+                <div class="recipe-meta-data">
+                    <div><i class="fa-solid fa-circle-user"></i><a href="profile.html?slug=${curr_recipe_user.user_name}">${curr_recipe_user.full_name}</a></div>
+                    <div><i class="fa-solid fa-comment"></i>${get_currrent_recipe_data.comments.length}</div>
+                    <div><i class="fa-solid fa-heart"></i>${get_currrent_recipe_data.wishlist_count.length}</div>
+                </div>
+            </div>
             <div class="img_container">
                 <img src="${get_currrent_recipe_data.img}" alt="">
             </div>
@@ -479,7 +495,7 @@ sidebar_recipe_cards(recipe_list.reverse(), sidebar_recent_recipe, true)
 
 
 document.querySelector(".recipe-page-sidebar-container").addEventListener("click",(e)=>{
-        let card = e.target.closest(".recipe-dashboard-card")
+        let card = e.target.closest(".sidebar-recipe-card")
         if(card)
             localStorage.setItem("curr_recipe", JSON.stringify(card.dataset.unique_id))
 })
