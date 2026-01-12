@@ -502,3 +502,8 @@ document.querySelector(".recipe-page-sidebar-container").addEventListener("click
 
 
 
+comment_input_box.addEventListener("input",()=>{
+    comment_input_box.style.height = "30px"
+    comment_input_box.style.height = comment_input_box.scrollHeight + "px";
+})
+console.log(body.scrollHeight)
