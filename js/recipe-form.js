@@ -262,6 +262,17 @@ const check_recipe_list_to_create_card_db = ()=>{
 }
 check_recipe_list_to_create_card_db()
 
+//Dashboard Card page routing function 
+document.querySelector(".wrapper-main-container").addEventListener("click",(e)=>{
+    let card = e.target.closest(".recipe-dashboard-card")
+    if(card){
+        localStorage.setItem("curr_recipe",JSON.stringify(card.dataset.unique_id))
+        console.log("jgdjfijsfjs")
+    }
+    
+})
+
+
 
 //Recipe card deletion and edit on dashboard
 const delete_btn_recipe_card_db = document.querySelector(".recipe-dashboard-card-del-btn")
