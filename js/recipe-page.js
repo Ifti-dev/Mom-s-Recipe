@@ -45,12 +45,12 @@ single_recipe_wrapper.innerHTML = `
                 </div>
                 <p>${get_currrent_recipe_data.desc}</p>
       
-                <h2>Ingredients</h2>
+                <h2 class="ingredient-title">Ingredients</h2>
                 <ol id="ingredient_container">
                     
                 </ol>
 
-                <h2>Instructions</h2>
+                <h2 class="instruction-title">Instructions</h2>
                 <ol id="instruction_container">
                     
                 </ol>
@@ -286,6 +286,18 @@ comment_form.addEventListener("submit",(e)=>{
     comment_input_box.value=""
     render_comments()
 })
+//cancel comment
+const comment_form_btn_container = document.querySelector(".comment-form-btn-container")
+comment_form.addEventListener("reset",()=>{
+    comment_form_btn_container.style.display = "none"
+    comment_input_box.parentElement.style.setProperty("--comment-bottom-line", "0%")
+})
+
+comment_input_box.addEventListener("focus",()=>{
+    comment_form_btn_container.style.display = "flex"
+    comment_input_box.parentElement.style.setProperty("--comment-bottom-line", "100%")
+})
+
 
 //clicked on Comments container
 comment_container.addEventListener("click",(e)=>{
@@ -501,7 +513,7 @@ document.querySelector(".recipe-page-sidebar-container").addEventListener("click
 })
 
 
-
+// as new line is added comment input box height changes instead of adding a scroll bar
 comment_input_box.addEventListener("input",()=>{
     comment_input_box.style.height = "30px"
     comment_input_box.style.height = comment_input_box.scrollHeight + "px";
