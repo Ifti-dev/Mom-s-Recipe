@@ -363,3 +363,44 @@ main::after{
     z-index: 0;
 
 }
+
+/* For Mobile */
+@media screen and (max-width: 900px){
+    .main-with-sidebar{
+        flex-direction: column-reverse;
+    }
+    .dashboard-sidebar-container{
+        width: 100%;
+        overflow: hidden;
+    }
+    .wrapper-main-container{
+        width: 100%;
+
+        position: relative;
+    }
+    
+    .dashboard-sidebar-options-container{
+        display: grid;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        background-color: var(--primary-theme-color);
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    }
+    .db-sidebar-opt{
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .db-sec-active{
+        height: 70vh;
+    }
+    main::after, .dashboard-sidebar-container::after{
+        display: none;
+    }
+    
+
+}
