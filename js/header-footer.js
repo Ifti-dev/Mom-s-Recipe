@@ -16,16 +16,36 @@ header().then(res=>document.querySelector("header").innerHTML = res)
 setTimeout(()=>{
     const login_regiser_head_btn = document.querySelector("#login-regiser-head-btn")
     if(localStorage.getItem("user_login_data")){
-        
         login_regiser_head_btn.href = "dashboard.html"
-        login_regiser_head_btn.textContent = "Dashboard"
+        document.querySelector(".main-menu-log-icon").style.display = "none"
+        document.querySelector(".main-menu-user-icon").style.display = "block"
     }
     else{
-        
+        login_regiser_head_btn.classList.add("login-regiser-head-btn-active")
         login_regiser_head_btn.href = "login.html"
-        login_regiser_head_btn.textContent = "Login/Register"
+        document.querySelector(".main-menu-log-icon").style.display = "block"
+        document.querySelector(".main-menu-user-icon").style.display = "none"
     }
-},200)
+
+    const body = document.querySelector("body")
+    const header_nav = document.querySelector(".header-nav")
+    document.querySelector(".main-menu").addEventListener("click",()=>{
+        body.classList.toggle("nav-full-width")
+        if(body.classList.contains("nav-full-width")){
+            header_nav.style.width = "100%"
+            body.style.overflowY = "hidden"
+        }
+        else{
+            header_nav.style.width = "0"
+            body.style.overflowY = "scroll"
+        }
+    })
+    
+
+},150)
+
+
+
 
 
 

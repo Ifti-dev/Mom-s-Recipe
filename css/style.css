@@ -87,6 +87,7 @@ body{
     height: 100vh;
     overflow-x: hidden;
     position: relative;
+    cursor: pointer;
 }
 
 /* header and nav */
@@ -109,6 +110,10 @@ header{
     padding: 1rem;
     font-size: 1.5rem;
     white-space: nowrap;
+    color: white;
+}
+.logo-container a{
+    color: white;
 }
 .header-nav{
     width: 100%;
@@ -122,11 +127,24 @@ header{
     gap: 20px;
 }
 
-.header-wrapper a{
+.header-wrapper li a{
     text-decoration: none;
     padding: 21px 10px;
     color: white;
     font-size: 1.1rem;
+}
+
+.login-regiser-head-btn-active{
+    text-decoration: none;
+    padding: 10px 10px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+    text-decoration: none;
+}
+.login-regiser-btn{
+    display: flex;
+    align-items: center;
 }
 
 /* footer */
@@ -211,4 +229,65 @@ footer label{
 
 .footer-nav,.footer-web-info{
     margin-top: 10px;
+}
+
+.main-menu{
+    display: none;
+    cursor: pointer;
+}
+.main-menu-user-icon{
+    color: white;
+}
+
+/* Mobile */
+@media screen and (max-width: 900px) {
+
+    .header-wrapper{
+        justify-content: space-between;
+       
+        z-index: 101;
+    }
+    .header-nav{
+        position: fixed;
+        top: 100px;
+        left: 0;
+        width: 0;
+        height: 100vh;
+        background-color: #b55d51;
+        z-index: 100;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: .6s;
+
+    }
+    .header-nav ul{
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+    }
+    .header-nav ul li{
+        padding: 15px;
+        
+        width: 100%;
+        text-align: center;
+    }
+    .header-nav ul li:hover{
+        background-color: rgb(255, 255, 255);
+        
+    }
+    .header-nav ul li:hover a{
+        color: black;
+    }
+    .login-regiser-btn{
+        gap: 15px;
+    }
+    .main-menu{
+        display: block;
+    }
+    .login-regiser-head-btn-active{
+        padding: 10px 10px;
+    }
+    /* .nav-full-width{
+        width: 100%;
+    } */
 }
