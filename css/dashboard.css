@@ -68,6 +68,9 @@ main::after{
     position: absolute;
     top: 10%;
     z-index: 1;
+    max-height: 670px;
+    overflow-y: auto;
+    border-radius: 20px;
 }
 
 
@@ -402,5 +405,11 @@ main::after{
         display: none;
     }
     
-
+    /* recipe form */
+    #recipe-creation-form{
+        padding: 0 16px;
+    }
+    .wrapper-recipe-form{
+        border-radius: 20px;
+    }
 }

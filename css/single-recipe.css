@@ -251,6 +251,10 @@
 }
 
 
+#comment-container{
+    margin-bottom: 30px;
+}
+
 #comment-container , .comment-reply-container{
     display: flex;
     flex-direction: column;
