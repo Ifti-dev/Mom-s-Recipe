@@ -160,6 +160,9 @@ main::after{
 
 .recipe-list-body{
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
 
@@ -169,15 +172,27 @@ main::after{
     
     gap: 15px;
     padding: 10px;
-    border: 2px solid #07070746;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.295);
+    border: 2px solid color-mix(in oklab, var(--primary-theme-color) 50%, rgba(0, 0, 0, 0) 50%);
+    box-shadow: 0px 0px 20px #b55d5118;
     border-radius: 10px;
     width: 100%;
     background-color: rgb(255, 255, 255);
+    transition: .3s;
+}
+.recipe-dashboard-card:hover{
+    scale: 1.03;
+    border: 2px solid var(--primary-theme-color);
+    box-shadow: 0px 0px 30px #b55d5118;
     
 }
 .recipe-dashboard-card-img{
     max-width: 50px;
+    max-height: 50px;
+}
+.recipe-dashboard-card-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .recipe-dashboard-card-body{
     display: flex;
@@ -193,6 +208,12 @@ main::after{
 .recipe-dashboard-card-info h3{
     font-size: 1.5rem;
 }
+.recipe-dashboard-card-info h3 a{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 .recipe-dashboard-card-info p{
     font-size: 1.2rem;
 }
@@ -203,14 +224,20 @@ main::after{
 }
 .recipe-dashboard-card-buttons button{
     padding: 5px 10px;
-    background-color: rgb(255, 59, 59);
+    background-color: rgb(197, 74, 74);
     color: white;
     font-weight: bold;
     border:none;
     border-radius: 5px;
     cursor: pointer;
 }
+.recipe-dashboard-card-buttons button:hover{
+    background-color: rgb(255, 59, 59);
+}
 .recipe-dashboard-card-buttons .recipe-dashboard-card-edit-btn{
+    background-color: rgb(81, 170, 96);
+}
+.recipe-dashboard-card-buttons .recipe-dashboard-card-edit-btn:hover{
     background-color: rgb(0, 223, 37);
 }
 
@@ -220,7 +247,9 @@ main::after{
     display: inline-block;
 }
 
-
+.wishlist-body {
+    margin-top: 10px;
+}
 
 
 

@@ -21,7 +21,6 @@ const create_new_li = (ul_container,li_inp_value)=>{
     new_li_delete.type = "button"
     new_li_delete.value = "X"
 
-    //for edit we collect the list data and add to li. And as we wanna make resable function thats why we are checking if li input(text).value exits
     if(li_inp_value){
         new_li_input.value = li_inp_value
     }
@@ -30,7 +29,6 @@ const create_new_li = (ul_container,li_inp_value)=>{
     new_li.appendChild(new_li_delete)
 
     ul_container.appendChild(new_li)
-    
 }
 
 const delete_li = (e)=>{
