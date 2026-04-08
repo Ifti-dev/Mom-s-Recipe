@@ -254,11 +254,17 @@ main::after{
 
 
 /* For dahsboard my profile */
+.my-profile-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 0;
+}
 .my-profile-head{
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 2rem;
+    
 }
 .my-profile-image{
     width: 100px;
@@ -310,7 +316,7 @@ main::after{
 
 
 .my-profile-body{
-    padding: 0 2rem 0 2rem;
+    
     /* background-color: antiquewhite; */
     display: flex;
     flex-direction: column;
@@ -320,7 +326,7 @@ main::after{
 .my-profile-input-container{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 .my-profile-inp-single-cont{
     display: flex;
@@ -428,7 +434,8 @@ main::after{
         align-items: center;
     }
     .db-sec-active{
-        height: 70vh;
+        height: auto;
+        min-height: 71vh;
     }
     main::after, .dashboard-sidebar-container::after{
         display: none;
