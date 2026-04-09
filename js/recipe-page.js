@@ -89,7 +89,7 @@ wishlist_btn_container.addEventListener("click",()=>{
         }
         else{
             get_currrent_user_data.wishlist.splice(current_recipe_index_from_user,1)
-            wishlist_btn.style.background = "white"
+            wishlist_btn.style.background = "var(--primary-theme-color)"
         }
 
         localStorage.setItem("user_list",JSON.stringify(user_list))

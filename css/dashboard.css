@@ -277,6 +277,7 @@ main::after{
     align-items: center;
     font-size: 3rem;
     position: relative;
+    flex-shrink: 0;
 }
 
 #profile-pic{
@@ -305,6 +306,10 @@ main::after{
     display: none;
 }
 
+.my-profile-head-info{
+    display: flex;
+    flex-direction: column;
+}
 #my-profile-head-fullname{
     font-size: 1.5rem;
 }
@@ -447,5 +452,24 @@ main::after{
     }
     .wrapper-recipe-form{
         border-radius: 20px;
+    }
+
+    /* my profile */
+    .my-profile-image{
+        width: 80px;
+        height: 80px;
+    }
+    #my-profile-head-fullname{
+        font-size: 1.4rem;
+    }
+    #my-profile-head-email{
+        color: #686868;
+        font-size: 1.2rem;
+    }
+    .my-profile-head{
+        flex-direction: column;
+    }
+    .my-profile-head-info{
+        text-align: center;
     }
 }
